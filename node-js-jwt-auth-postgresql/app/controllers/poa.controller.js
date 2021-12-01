@@ -67,6 +67,7 @@ exports.create = (req, res) => {
     expiry_date: req.body.expiry_date,
     is_duplicate: req.body.is_duplicate || false,
     registrar_id: req.body.registrar_id,
+    property: req.body.property,
   }).then(() => {
     res.send({ message: 'Poa was created successfully!' });
   });

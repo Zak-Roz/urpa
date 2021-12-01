@@ -11,7 +11,8 @@ workplaceRouter
     );
     next();
   })
-  .get('/get', controller.get)
+  .get('/getByName', controller.getByName)
+  .get('/getAll', controller.getAll)
   .post('/new',
     [
       verifyWorkplace.checkDuplicateEmailOrName,

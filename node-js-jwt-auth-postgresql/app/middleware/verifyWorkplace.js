@@ -15,20 +15,20 @@ const checkDuplicateEmailOrName = (req, res, next) => {
       return;
     }
     // email
-    Workplace.findOne({
-      where: {
-        email: req.body.email
-      }
-    }).then(user => {
-      if (user) {
-        res.status(400).send({
-          message: 'Failed! Email is already in use!'
-        });
-        return;
-      }
+    // Workplace.findOne({
+    //   where: {
+    //     email: req.body.email
+    //   }
+    // }).then(user => {
+    //   if (user) {
+    //     res.status(400).send({
+    //       message: 'Failed! Email is already in use!'
+    //     });
+    //     return;
+    //   }
 
-      next();
-    });
+    next();
+    // });
   });
 };
 

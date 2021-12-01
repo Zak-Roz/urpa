@@ -6,6 +6,7 @@ const Workplace = db.workplace;
 const checkDuplicateUser = (req, res, next) => {
   try {
   // Login
+    console.log(req.body);
     User.findOne({
       where: {
         login: req.body.login,
@@ -13,8 +14,9 @@ const checkDuplicateUser = (req, res, next) => {
     }).then(user => {
       if (user) {
         res.status(400).send({
-          message: 'Failed! Login is already in use!'
+          message: 'Failed! Email is already in use!'
         });
+        console.log('\n\n\nFailed! Email is already in use!\n\n\n');
         return;
       }
       // passport_number
@@ -73,14 +75,29 @@ const checkRightsExisted = (req, res, next) => {
 
 const checkWorkplaceExisted = (req, res, next) => {
   try {
-    Workplace.findByPk(req.body.workplace_id)
+    // Workplace.findByPk(req.body.workplace_id)
+    //   .then(work => {
+    //     if (!work) {
+    //       return res.status(400).send({
+    //         message: 'Workplace not found',
+    //       });
+    //     }
+
+    //     next();
+    //   }).catch(err => {
+    //     res.status(500).send({ message: err.message });
+    //   });
+    Workplace.findOne({
+      where: {
+        organization_name: req.body.organization_name
+      }})
       .then(work => {
         if (!work) {
           return res.status(400).send({
             message: 'Workplace not found',
           });
         }
-
+        req.body.workplace_id = work.id;
         next();
       }).catch(err => {
         res.status(500).send({ message: err.message });

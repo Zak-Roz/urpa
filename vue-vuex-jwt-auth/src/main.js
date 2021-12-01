@@ -1,9 +1,11 @@
 import Vue from 'vue';
+import vSelect from "vue-select";
 import App from './App.vue';
 import { router } from './router';
 import store from './store';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "vue-select/dist/vue-select.css";
 import VeeValidate from 'vee-validate';
 import Vuex from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -22,7 +24,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VeeValidate);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
-
+Vue.component("v-select", vSelect);
 Vue.use(Vuex);
 
 new Vue({

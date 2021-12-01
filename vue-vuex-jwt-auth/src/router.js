@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
+import Modal from './views/Modal.vue';
+import Poa from './views/Poa.vue';
 
 Vue.use(Router);
 
@@ -25,6 +27,14 @@ export const router = new Router({
     {
       path: '/register',
       component: Register
+    },
+    {
+      path: '/modal',
+      component: Modal
+    },
+    {
+      path: '/add-poa',
+      component: Poa
     },
     {
       path: '/profile',

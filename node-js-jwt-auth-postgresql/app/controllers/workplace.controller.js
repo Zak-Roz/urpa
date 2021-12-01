@@ -1,20 +1,38 @@
 const db = require('../models');
-const { Op } = require('sequelize');
+// const { Op } = require('sequelize');
 const Workplace = db.workplace;
 
-// get Workplace from Database
-exports.get = (req, res) => {
+exports.getAll = (req, res) => {
   try {
-    const {organization_name, email} = req.query;
+    Workplace.findAll({ attributes: ['organization_name'], raw: true})
+      .then((work) => {
+        if (!work) {
+          throw new Error('Workplace don`t found!');
+        }
+        // console.log(work);
+        return res.json(work);
+      }).catch(err => {
+        return res.status(500).send({ message: err.message });
+      });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+};
+
+// get Workplace from Database
+exports.getByName = (req, res) => {
+  try {
+    const {organization_name, /*email*/} = req.query;
     console.log('\n\n\n\n\n\n\n\n');
     // console.log(email || organization_name);
     // if (email || organization_name) {
     Workplace.findOne({
       where: {
-        [Op.or]: [
-          { organization_name },
-          { email }
-        ]
+        organization_name,
+        // [Op.or]: [
+        //   { organization_name },
+        //   { email }
+        // ]
       }
     }).then((work) => {
       if (!work) {

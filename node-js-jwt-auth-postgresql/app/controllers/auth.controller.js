@@ -1,3 +1,6 @@
+require('dotenv').config();
+const genPass = require('generate-password');
+const nodemailer = require('nodemailer');
 const db = require('../models');
 const config = require('../config/auth.config');
 const User = db.user;
@@ -8,13 +11,41 @@ const Op = db.Sequelize.Op;
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
+function sendEmail(password, user) {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_NAME, 
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
+  let mailOptions = {
+    from: process.env.EMAIL_NAME, 
+    to: user.login,
+    subject: 'ЄДР авторизація',
+    text: `Your login: ${user.login}\nYour password: ${password}`
+  };
+  transporter.sendMail(mailOptions, (err, data) => {
+    if (err) {
+      return console.log('Error occurs');
+    }
+    return console.log('Email sent!!!');
+  });
+}
+
 exports.signup = (req, res) => {
   // Save User to Database
   try {
+    const password = genPass.generate({
+      length: 20,
+      numbers: true,
+      symbols: '!#@*&^'
+    });
+    console.log('🚀 ~ file: auth.controller.js ~ line 20 ~ password', password);
     User.create({
       fullname: req.body.fullname,
       login: req.body.login,
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: bcrypt.hashSync(password, 8),
       dob: req.body.dob,
       passport_series: req.body.passportSeries,
       passport_number: req.body.passportNumber,
@@ -33,12 +64,14 @@ exports.signup = (req, res) => {
           }
         }).then(rights => {
           user.setRights(rights).then(() => {
+            // sendEmail(password, user);
             res.send({ message: 'User was registered successfully!' });
           });
         });
       } else {
       // user right = 1
         user.setRights([1]).then(() => {
+          // sendEmail(password, user);
           res.send({ message: 'User was registered successfully!' });
         });
       }
@@ -54,8 +87,7 @@ exports.signin = (req, res) => {
   User.findOne({
     where: {
       login: req.body.login
-    }
-  })
+    }})
     .then(user => {
       if (!user) {
         return res.status(404).send({ message: 'User Not found.' });
@@ -77,11 +109,13 @@ exports.signin = (req, res) => {
         expiresIn: 5400 // 24 hours -> 86400
       });
 
-      User.update({ status_id: 2 }, {
-        where: {
-          login: req.body.login
-        }
-      });
+      if(user.status_id === 1) {
+        User.update({ status_id: 2 }, {
+          where: {
+            login: req.body.login
+          }
+        });
+      }
       
 
       var authorities = [];

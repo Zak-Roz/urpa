@@ -33,13 +33,15 @@ class AuthService {
     return axios.post(API_URL + 'signup', {
       fullname: user.fullname,
       login: user.login,
-      password: user.password,
+      // password: user.password,
       dob: user.dob,
-      passport_series: user.passportSeries,
-      passport_number: user.passportNumber,
-      passport_issue_date: user.passportIssueDate,
-      passport_authority: user.passportAuthority,
+      passportSeries: user.passportSeries,
+      passportNumber: user.passportNumber,
+      passportIssueDate: user.passportIssueDate,
+      passportAuthority: user.passportAuthority,
       rntrc: user.rntrc,
+      organization_name: user.organization_name.organization_name,
+      rights: user.rights,
     });
   }
 }

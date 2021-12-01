@@ -17,9 +17,13 @@
       <strong>Login:</strong>
       {{currentUser.login}}
     </p>
+    <p>
+      <strong>full:</strong>
+      {{currentUser}}
+    </p>
     <strong>Authorities:</strong>
     <ul>
-      <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>
+      <li v-for="(role,index) in currentUser.rights" :key="index">{{role}}</li>
     </ul>
   </div>
 </template>

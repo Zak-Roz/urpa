@@ -2,9 +2,14 @@
   <div class="container">
     <header class="jumbotron">
       <h3>{{content}}</h3>
-      <button class="button">
+      <button v-if="!content.match(/No|found/g)" class="button">
         <router-link to="/register" class="but-link">
           <font-awesome-icon icon="user-plus" />New user
+        </router-link>
+      </button>
+      <button v-if="!content.match(/No|found/g)" style="left: 10px" class="button">
+        <router-link to="/add-poa" class="but-link">
+          <font-awesome-icon icon="user-plus" />Create poa
         </router-link>
       </button>
     </header>

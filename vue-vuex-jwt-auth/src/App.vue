@@ -60,15 +60,15 @@ export default {
       return this.$store.state.auth.user;
     },
     showAdminBoard() {
-      if (this.currentUser && this.currentUser.roles) {
-        return this.currentUser.roles.includes('ROLE_ADMIN');
+      if (this.currentUser && this.currentUser.rights) {
+        return this.currentUser.rights.includes('RIGHT_ADMIN');
       }
 
       return false;
     },
     showModeratorBoard() {
-      if (this.currentUser && this.currentUser.roles) {
-        return this.currentUser.roles.includes('ROLE_MODERATOR');
+      if (this.currentUser && this.currentUser.rights) {
+        return this.currentUser.rights.includes('RIGHT_MODERATOR');
       }
 
       return false;
