@@ -57,12 +57,12 @@
             class="alert"
             :class="successful ? 'alert-success' : 'alert-danger'"
           >{{message}}</div>
-          <div v-if="message && !message.match(/Failed|found/g)">
+          <div v-if="message && successful">
             <button class="btn btn-primary btn-block" @click="message='';successful=false">Нове місце роботи</button>
           </div>
           <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
-              Close
-            </button>
+            Закрити
+          </button>
     <!-- </div> -->
           <!-- </slot> -->
         </div>
@@ -151,7 +151,7 @@ export default {
 }
 
 .modal-container {
-  width: 350px;
+  width: 445px;
   margin: 0px auto;
   padding: 0px 20px;
   background-color: #fff;

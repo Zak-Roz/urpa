@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
 
     certification_date: { type: Sequelize.DATEONLY/*, allowNull: false*/ },
 
-    register_number: { type: Sequelize.STRING/*, allowNull: false*/ },
+    // register_number: { type: Sequelize.STRING/*, allowNull: false*/ },
 
     expiry_date: { type: Sequelize.DATEONLY/*, allowNull: false*/ },
 

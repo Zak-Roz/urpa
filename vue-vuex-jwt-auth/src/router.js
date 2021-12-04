@@ -4,7 +4,8 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import Modal from './views/Modal.vue';
-import Poa from './views/Poa.vue';
+import NewPoa from './views/NewPoa.vue';
+import PoaFind from './views/PoaFind.vue';
 
 Vue.use(Router);
 
@@ -33,8 +34,12 @@ export const router = new Router({
       component: Modal
     },
     {
+      path: '/find-poa',
+      component: PoaFind
+    },
+    {
       path: '/add-poa',
-      component: Poa
+      component: NewPoa
     },
     {
       path: '/profile',

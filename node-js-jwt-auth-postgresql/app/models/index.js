@@ -114,8 +114,7 @@ begin
   action:=json_build_object('action', poa_des, 'principal_name', new.principal_name, 'principal_code', new.principal_code,
     'confident_name', new.confident_name, 'registration_date', to_char(new.registration_date, 'MM-DD-YYYY'),
     'blank_series', new.blank_series, 'blank_number', new.blank_number, 'certification_date',
-    to_char(new.certification_date, 'MM-DD-YYYY'), 'register_number', new.register_number, 'expiry_date',
-    to_char(new.expiry_date, 'MM-DD-YYYY'));
+    to_char(new.certification_date, 'MM-DD-YYYY'), 'expiry_date', to_char(new.expiry_date, 'MM-DD-YYYY'));
   
     --Insert entry in journalisms table
   insert into journalisms (journal_id, action_data, action_description, "createdAt", "updatedAt", user_id, poa_id)
@@ -155,12 +154,11 @@ begin
 	action:=json_build_object('action', poa_des, 'old_principal_name', old.principal_name, 'old_principal_code', old.principal_code,
 		'old_confident_name', old.confident_name, 'old_registration_date', to_char(old.registration_date, 'MM-DD-YYYY'),
 		'old_blank_series', old.blank_series, 'old_blank_number', old.blank_number, 'old_certification_date',
-		to_char(old.certification_date, 'MM-DD-YYYY'), 'old_register_number', old.register_number, 'old_expiry_date',
+		to_char(old.certification_date, 'MM-DD-YYYY'), 'old_expiry_date',
 		to_char(old.expiry_date, 'MM-DD-YYYY'), 'new_principal_name', new.principal_name, 'new_principal_code', new.principal_code,
 		'new_confident_name', new.confident_name, 'new_registration_date', to_char(new.registration_date, 'MM-DD-YYYY'),
 		'new_blank_series', new.blank_series, 'new_blank_number', new.blank_number, 'new_certification_date',
-		to_char(new.certification_date, 'MM-DD-YYYY'), 'new_register_number', new.register_number, 'new_expiry_date',
-		to_char(new.expiry_date, 'MM-DD-YYYY'));
+		to_char(new.certification_date, 'MM-DD-YYYY'), 'new_expiry_date', to_char(new.expiry_date, 'MM-DD-YYYY'));
 	
 		--Insert entry in journalisms table
 	insert into journalisms (journal_id, action_data, action_description, "createdAt", "updatedAt", user_id, poa_id)
@@ -198,8 +196,7 @@ begin
 	action:=json_build_object('action', poa_des, 'principal_name', new.principal_name, 'principal_code', new.principal_code,
 		'confident_name', new.confident_name, 'registration_date', to_char(new.registration_date, 'MM-DD-YYYY'),
 		'blank_series', new.blank_series, 'blank_number', new.blank_number, 'certification_date',
-		to_char(new.certification_date, 'MM-DD-YYYY'), 'register_number', new.register_number, 'expiry_date',
-		to_char(new.expiry_date, 'MM-DD-YYYY'));
+		to_char(new.certification_date, 'MM-DD-YYYY'), 'expiry_date',	to_char(new.expiry_date, 'MM-DD-YYYY'));
 	
 		--Insert entry in journalisms table
 	insert into journalisms (journal_id, action_data, action_description, "createdAt", "updatedAt", user_id, poa_id)

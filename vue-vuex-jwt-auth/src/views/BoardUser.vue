@@ -2,6 +2,11 @@
   <div class="container">
     <header class="jumbotron">
       <h3>{{content}}</h3>
+      <button v-if="!content.match(/No|found/g)" class="button">
+        <router-link to="/find-poa" class="but-link">
+          <font-awesome-icon icon="user-plus" />Знайти довіреність
+        </router-link>
+      </button>
     </header>
   </div>
 </template>

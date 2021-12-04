@@ -45,7 +45,7 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
-      <div v-if="message && !message.match(/Failed|found/g)">
+      <div v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Новий користувач системи</button>
       </div>
     </div>

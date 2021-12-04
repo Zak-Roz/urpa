@@ -117,17 +117,17 @@
           <!-- rights -->
           <div class="form-group">
             <label for="rights" style="margin: 0 0 15px 0">Рівні доступу</label>
-            <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
-              <input class="checkmark" style="left: 5px" type="checkbox" id="user" v-model="user.rights" value="user">
+            <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
+              <input class="checkmark" style="left: 32px" type="checkbox" id="user" v-model="user.rights" value="user">
               <label style="margin: 25px 0 0 0" for="user">Користувач</label>
             </div>
-            <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
-              <input class="checkmark" style="left: 25px" type="checkbox" id="moderator" v-model="user.rights" value="moderator">
+            <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
+              <input class="checkmark" style="left: 28px" type="checkbox" id="moderator" v-model="user.rights" value="moderator">
               <label for="moderator" style="margin: 25px 0px 0 0" >Реєстратор</label>
             </div>
-            <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
-              <input class="checkmark" style="left: 12px" type="checkbox" id="admin" v-model="user.rights" value="admin">
-              <label for="admin" style="margin: 25px 0 0 0" >Адміністратор</label>
+            <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
+              <input class="checkmark" style="left: 7px" type="checkbox" id="admin" v-model="user.rights" value="admin">
+              <label for="admin" style="margin: 25px 0 0 0" >Адмін</label>
             </div>
             <!-- <input
               v-model="user.rights"
@@ -236,7 +236,7 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
-      <div v-if="message && !message.match(/Failed|found|invalid|not|Not|Network|network/g)">
+      <div v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Новий користувач системи</button>
       </div>
     </div>
@@ -285,7 +285,7 @@ export default {
     this.user.dob = '1995-10-21';
     this.user.login = 'aqws@cc.oo';
     this.user.passportNumber = '145236987';
-    this.user.passportIssueDate = '2025-10-21';
+    this.user.passportIssueDate = '2015-10-21';
     this.user.passportAuthority = '1111';
     this.user.organization_name = 'a';
     this.user.rntrc = '4785124369';

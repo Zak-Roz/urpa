@@ -3,7 +3,7 @@ const db = require('../models');
 const Poa = db.poa;
 
 // get Poa from Database
-exports.get = async (req, res) => {
+exports.getOne = async (req, res) => {
   try {
     const {
       blank_series, blank_number,
@@ -54,16 +54,20 @@ exports.get = async (req, res) => {
 exports.create = (req, res) => {
   // Save Poa to Database
   // try {
+  const currentMonth = (new Date().getMonth() + 1) < 10 ? `0${(new Date().getMonth() + 1)}` : `${(new Date().getMonth() + 1)}`;
+  const currentDay = new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`;
+  const currentYear = new Date().getFullYear();
+  const dateNow = `${currentYear}-${currentMonth}-${currentDay}`;
   Poa.create({
     principal_name: req.body.principal_name,
     principal_code: req.body.principal_code,
     confident_name: req.body.confident_name,
     confident_code: req.body.confident_code,
-    registration_date: req.body.registration_date,
+    registration_date: dateNow,
     blank_series: req.body.blank_series,
     blank_number: req.body.blank_number,
     certification_date: req.body.certification_date,
-    register_number: req.body.register_number,
+    // register_number: req.body.register_number,
     expiry_date: req.body.expiry_date,
     is_duplicate: req.body.is_duplicate || false,
     registrar_id: req.body.registrar_id,

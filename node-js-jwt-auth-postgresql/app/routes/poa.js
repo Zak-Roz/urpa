@@ -11,10 +11,11 @@ poaRouter
     );
     next();
   })
-  .get('/get', controller.get)
+  .get('/getOne', controller.getOne)
   .post('/new',
     [
       verifyPoa.checkDuplicateBlank_SAN,
+      verifyPoa.checkDuplicateAll,
       verifyPoa.checkUsersExisted,
     ],
     controller.create
