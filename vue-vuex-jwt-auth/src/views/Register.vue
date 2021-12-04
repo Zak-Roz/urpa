@@ -10,7 +10,7 @@
         <div v-if="!successful">
           <!-- fullname -->
           <div class="form-group">
-            <label for="fullname">Fullname</label>
+            <label for="fullname">ПІБ</label>
             <input
               v-model="user.fullname"
               v-validate="'required|min:3|max:25'"
@@ -25,7 +25,7 @@
           </div>
           <!-- login -->
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Електронна пошта</label>
             <input
               v-model="user.login"
               v-validate="'required|email|max:50'"
@@ -40,7 +40,7 @@
           </div>
           <!-- passport series -->
           <div class="form-group">
-            <label for="passport series">Passport series</label>
+            <label for="passport series">Серія паспорту (за наявності)</label>
             <input
               v-model="user.passportSeries"
               v-validate="{ length: 2, alpha: true, regex: /ЕС|АР|АА|АВ|АТ|АС|АЮ|АЕ|АК|АМ|АО|АН|ВА|ВВ|ВЕ|ВН|ВС|ВТ|СЕ|СС|ВО|СА|СВ|СЮ|МЕ|СИ|СН|СО|ТТ|СК|СМ|СТ|ЕА|ЕМ|ЕН|КА|КВ|ЕО|ЕР|КЕ|КК|КМ|КН|СР|МЮ|МА|МС|КС|МК|МН|МО|НА|НЕ|НС|НК|КР/ }"
@@ -56,7 +56,7 @@
           </div>
           <!-- passport number -->
           <div class="form-group">
-            <label for="passport number">Passport number</label>
+            <label for="passport number">Номер паспорту</label>
             <input
               v-model="user.passportNumber"
               v-validate="{ required: true, length: isBookNum(), regex: isBookRegex() }"
@@ -71,7 +71,7 @@
           </div>
           <!-- passport issue date -->
           <div class="form-group">
-            <label for="passport issue date">Passport issue date</label>
+            <label for="passport issue date">Дата видачі паспорту</label>
             <input
               v-model="user.passportIssueDate"
               v-validate="'required'"
@@ -86,7 +86,7 @@
           </div>
           <!-- passport authority -->
           <div class="form-group">
-            <label for="passport authority">Passport authority</label>
+            <label for="passport authority">Орган, що видав паспорт</label>
             <input
               v-model="user.passportAuthority"
               v-validate="{ required: true, min: 4, max: isBookNumAuthority(), regex: isBookRegexAuthority() }"
@@ -116,18 +116,18 @@
           </div>
           <!-- rights -->
           <div class="form-group">
-            <label for="rights" style="margin: 0 0 15px 0">Rights</label>
+            <label for="rights" style="margin: 0 0 15px 0">Рівні доступу</label>
             <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
               <input class="checkmark" style="left: 5px" type="checkbox" id="user" v-model="user.rights" value="user">
-              <label style="margin: 25px 0 0 0" for="user">User</label>
+              <label style="margin: 25px 0 0 0" for="user">Користувач</label>
             </div>
             <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
               <input class="checkmark" style="left: 25px" type="checkbox" id="moderator" v-model="user.rights" value="moderator">
-              <label for="moderator" style="margin: 25px 0px 0 0" >Moderator</label>
+              <label for="moderator" style="margin: 25px 0px 0 0" >Реєстратор</label>
             </div>
             <div class="form-check form-check-inline" style="margin: 0 0px 0 30px" >
               <input class="checkmark" style="left: 12px" type="checkbox" id="admin" v-model="user.rights" value="admin">
-              <label for="admin" style="margin: 25px 0 0 0" >Admin</label>
+              <label for="admin" style="margin: 25px 0 0 0" >Адміністратор</label>
             </div>
             <!-- <input
               v-model="user.rights"
@@ -143,7 +143,7 @@
           </div>
           <!-- organization_name -->
           <div class="form-group">
-            <label for="organization_name">Organization name</label>
+            <label for="organization_name">Назва установи</label>
             <!-- <input
               v-model="user.organization_name"
               v-validate="'required'"
@@ -166,19 +166,19 @@
               v-if="submitted && errors.has('organization_name')"
               class="alert-danger"
             >{{errors.first('organization_name')}}</div>
-            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Create new work"/>
+            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Створити нове місце роботи"/>
           <Modal v-if="showModal" @close="showModal = false;uploadWorkSelect()">
-            <h3 slot="header">Add new workplace</h3>
+            <h3 slot="header">Створити нове місце роботи</h3>
           </Modal>
           <!-- <button class="button">
             <router-link to="/modal" class="but-link">
-              <font-awesome-icon icon="user-plus" />add work
+              <font-awesome-icon icon="user-plus" />Додати місце роботи
             </router-link>
           </button> -->
           </div>
           <!-- Day of birthday -->
           <div class="form-group">
-            <label for="day of birthday">Day of birthday</label>
+            <label for="day of birthday">Дата народження</label>
             <input
               v-model="user.dob"
               v-validate="'required'"
@@ -193,14 +193,14 @@
           </div>
           <!-- Password -->
           <!-- <div class="form-group">
-            <label for="password">Padssword</label>
+            <label for="password">Пароль</label>
             <input
               v-model="user.password"
               v-validate="'required|min:1|max:20'"
               type="password"
               class="form-control"
               name="password"
-              placeholder="Password"
+              placeholder="Введіть пароль"
               ref="password"
             />
             <div
@@ -209,13 +209,13 @@
             >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
-            <label for="password_confirmation">Password</label>
+            <label for="password_confirmation">Пароль</label>
             <input
               v-validate="'required|confirmed:password'"
               type="password"
               class="form-control"
               name="password_confirmation"
-              placeholder="Password, Again"
+              placeholder="Ще раз введіть пароль"
               data-vv-as="password"
             />
             <div
@@ -226,7 +226,7 @@
 
           <!-- btn Sign Up -->
           <div class="form-group">
-            <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Sign Up</button>
+            <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Зареєструватися</button>
           </div>
         </div>
       </form>
@@ -237,7 +237,7 @@
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
       <div v-if="message && !message.match(/Failed|found|invalid/g)">
-        <button class="btn btn-primary btn-block" @click="message='';successful=false">New user</button>
+        <button class="btn btn-primary btn-block" @click="message='';successful=false">Новий користувач системи</button>
       </div>
     </div>
   </div>

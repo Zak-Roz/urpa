@@ -10,7 +10,7 @@ const checkDuplicateEmailOrName = (req, res, next) => {
   }).then(workplace => {
     if (workplace) {
       res.status(400).send({
-        message: 'Failed! Organization name is already in use!'
+        message: 'Помилка! Назва установи вже зайнята!'
       });
       return;
     }
@@ -22,7 +22,7 @@ const checkDuplicateEmailOrName = (req, res, next) => {
     // }).then(user => {
     //   if (user) {
     //     res.status(400).send({
-    //       message: 'Failed! Email is already in use!'
+    //       message: 'Помилка! Електронна пошла вже зайнята!'
     //     });
     //     return;
     //   }

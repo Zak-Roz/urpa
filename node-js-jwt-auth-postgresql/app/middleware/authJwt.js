@@ -9,13 +9,13 @@ const verifyToken = (req, res, next) => {
 
     if (!token) {
       return res.status(403).send({
-        message: 'No token provided!'
+        message: 'Не надано токену!'
       });
     }
 
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) {
-        return res.status(401).send({ message: 'Unauthorized!' });
+        return res.status(401).send({ message: 'Неавторизований вхід!' });
       }
       req.userId = decoded.id;
       next();
@@ -37,7 +37,7 @@ const isAdmin = (req, res, next) => {
         }
 
         res.status(403).send({
-          message: 'Require Admin Right!'
+          message: 'Необхідні права Адміністратора!'
         });
         return;
       });
@@ -59,7 +59,7 @@ const isModerator = (req, res, next) => {
         }
 
         res.status(403).send({
-          message: 'Require Moderator Right!'
+          message: 'Необхідні права Реєстратора!'
         });
       });
     });
@@ -85,7 +85,7 @@ const isModeratorOrAdmin = (req, res, next) => {
         }
 
         res.status(403).send({
-          message: 'Require Moderator or Admin Right!'
+          message: 'Необхідні права Реєстратора або Адміністратора!'
         });
       });
     });

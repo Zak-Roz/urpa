@@ -13,7 +13,7 @@ const checkDuplicateBlank_SAN = (req, res, next) => {
       if (poa) {
         if(poa.blank_number === req.body.blank_number && req.body.is_duplicate) next();
         res.status(400).send({
-          message: 'Failed! Blank series is already in use!'
+          message: 'Помилка! Задана серія бланку вже зайнята!'
         });
         return;
       }
@@ -25,7 +25,7 @@ const checkDuplicateBlank_SAN = (req, res, next) => {
       }).then(poa => {
         if (poa) {
           res.status(400).send({
-            message: 'Failed! Blank number is already in use!'
+            message: 'Помилка! Заданий номер бланку вже зайнятий!'
           });
           return;
         }
@@ -46,7 +46,7 @@ const checkUsersExisted = (req, res, next) => {
       .then(user => {
         if (!user) {
           return res.status(400).send({
-            message: 'Registrar not found',
+            message: 'Реєстратора не знайдено',
           });
         }
 

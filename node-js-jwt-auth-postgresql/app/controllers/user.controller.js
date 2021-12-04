@@ -1,15 +1,15 @@
 exports.allAccess = (req, res) => {
-  res.status(200).send('Public Content.');
+  res.status(200).send('Публічні дані.');
 };
 
 exports.userBoard = (req, res) => {
-  res.status(200).send('User Content.');
+  res.status(200).send('Дані Користувача.');
 };
 
 exports.adminBoard = (req, res) => {
-  res.status(200).send('Admin Content.');
+  res.status(200).send('Дані Адміністратора.');
 };
 
 exports.moderatorBoard = (req, res) => {
-  res.status(200).send('Moderator Content.');
+  res.status(200).send('Дані Реєстратора.');
 };

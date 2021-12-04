@@ -5,7 +5,7 @@
 
         <div class="modal-header">
           <slot name="header">
-            Add new workplace
+            Додати нове місце роботи
           </slot>
         </div>
 
@@ -17,7 +17,7 @@
             <div v-if="!successful">
               <!-- organization_name -->
               <div class="form-group">
-                <label for="organization_name">Organization name</label>
+                <label for="organization_name">Назва установи</label>
                 <input
                   v-model="workplace.organization_name"
                   v-validate="'required|min:3|max:25'"
@@ -32,7 +32,7 @@
               </div>
               <!-- email -->
               <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">Електронна пошта</label>
                 <input
                   v-model="workplace.email"
                   v-validate="'required|email|max:50'"
@@ -47,7 +47,7 @@
               </div>
               <!-- btn Sign Up -->
               <div class="form-group">
-                <button class="btn btn-primary btn-block">Create</button>
+                <button class="btn btn-primary btn-block">Створити</button>
               </div>
             </div>
           </form>
@@ -58,7 +58,7 @@
             :class="successful ? 'alert-success' : 'alert-danger'"
           >{{message}}</div>
           <div v-if="message && !message.match(/Failed|found/g)">
-            <button class="btn btn-primary btn-block" @click="message='';successful=false">New work</button>
+            <button class="btn btn-primary btn-block" @click="message='';successful=false">Нове місце роботи</button>
           </div>
           <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
               Close

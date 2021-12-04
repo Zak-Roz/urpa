@@ -2,26 +2,26 @@
   <div class="container">
     <header class="jumbotron">
       <h3>
-        <strong>{{currentUser.fullname}}</strong> Profile
+        <strong>{{currentUser.fullname}}</strong> Обліковий запис
       </h3>
     </header>
     <p>
-      <strong>Token:</strong>
+      <strong>Токен:</strong>
       {{currentUser.accessToken.substring(0, 20)}} ... {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}
     </p>
     <p>
-      <strong>Id:</strong>
+      <strong>Ідентифікатор:</strong>
       {{currentUser.id}}
     </p>
     <p>
-      <strong>Login:</strong>
+      <strong>Логін:</strong>
       {{currentUser.login}}
     </p>
     <p>
-      <strong>full:</strong>
+      <strong>Повна інформація:</strong>
       {{currentUser}}
     </p>
-    <strong>Authorities:</strong>
+    <strong>Рівні доступу:</strong>
     <ul>
       <li v-for="(role,index) in currentUser.rights" :key="index">{{role}}</li>
     </ul>

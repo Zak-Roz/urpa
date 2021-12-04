@@ -22,14 +22,14 @@ function sendEmail(password, user) {
   let mailOptions = {
     from: process.env.EMAIL_NAME, 
     to: user.login,
-    subject: 'ЄДР авторизація',
-    text: `Your login: ${user.login}\nYour password: ${password}`
+    subject: 'ЄРД авторизація',
+    text: `Ваш логін у системі: ${user.login}\nВаш пароль: ${password}`
   };
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
-      return console.log('Error occurs');
+      return console.log('Помилка');
     }
-    return console.log('Email sent!!!');
+    return console.log('Лист надіслано!!!');
   });
 }
 
@@ -65,14 +65,14 @@ exports.signup = (req, res) => {
         }).then(rights => {
           user.setRights(rights).then(() => {
             // sendEmail(password, user);
-            res.send({ message: 'User was registered successfully!' });
+            res.send({ message: 'Користувача успішно зареєстровано!' });
           });
         });
       } else {
       // user right = 1
         user.setRights([1]).then(() => {
           // sendEmail(password, user);
-          res.send({ message: 'User was registered successfully!' });
+          res.send({ message: 'Користувача успішно зареєстровано!' });
         });
       }
     }).catch(err => {
@@ -90,7 +90,7 @@ exports.signin = (req, res) => {
     }})
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: 'User Not found.' });
+        return res.status(404).send({ message: 'Користувача не знайдено.' });
       }
 
       var passwordIsValid = bcrypt.compareSync(
@@ -101,7 +101,7 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: 'Invalid Password!'
+          message: 'Невірний пароль!'
         });
       }
 

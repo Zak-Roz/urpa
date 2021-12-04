@@ -7,7 +7,7 @@ exports.getAll = (req, res) => {
     Workplace.findAll({ attributes: ['organization_name'], raw: true})
       .then((work) => {
         if (!work) {
-          throw new Error('Workplace don`t found!');
+          throw new Error('Місце роботи не знайдено!');
         }
         // console.log(work);
         return res.json(work);
@@ -36,14 +36,14 @@ exports.getByName = (req, res) => {
       }
     }).then((work) => {
       if (!work) {
-        throw new Error('Workplace don`t found!');
+        throw new Error('Місце роботи не знайдено!');
       }
       return res.json(work);
     }).catch(err => {
       return res.status(500).send({ message: err.message });
     });
     // }
-    // throw new Error('Name is required!');
+    // throw new Error('Необхідно ввести ім`я!');
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -56,7 +56,7 @@ exports.create = (req, res) => {
       organization_name: req.body.organization_name,
       email: req.body.email,
     }).then(() => {
-      return res.send({ message: 'Workplace was created successfully!' });
+      return res.send({ message: 'Місце роботи успішно створено!' });
     }).catch(err => {
       return res.status(500).send({ message: err.message });
     });

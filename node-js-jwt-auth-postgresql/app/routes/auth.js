@@ -22,7 +22,7 @@ authRouter
   .post('/signin', controller.signin);
 
 authRouter.use(() => {
-  // throw new myError(400, 'command not found');
+  // throw new myError(400, 'Команду не знайдено');
 });
 
 module.exports = authRouter;

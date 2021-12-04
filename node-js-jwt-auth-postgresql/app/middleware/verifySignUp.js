@@ -14,9 +14,9 @@ const checkDuplicateUser = (req, res, next) => {
     }).then(user => {
       if (user) {
         res.status(400).send({
-          message: 'Failed! Email is already in use!'
+          message: 'Помилка! Електронна пошта вже зайнята!'
         });
-        console.log('\n\n\nFailed! Email is already in use!\n\n\n');
+        console.log('\n\n\nПомилка! Електронна пошта вже зайнята!\n\n\n');
         return;
       }
       // passport_number
@@ -27,7 +27,7 @@ const checkDuplicateUser = (req, res, next) => {
       }).then(user => {
         if (user) {
           res.status(400).send({
-            message: 'Failed! Passport number is already in use!'
+            message: 'Помилка! Номер паспорту вже зайнятий!'
           });
           return;
         }
@@ -39,7 +39,7 @@ const checkDuplicateUser = (req, res, next) => {
         }).then(user => {
           if (user) {
             res.status(400).send({
-              message: 'Failed! RNTRC is already in use!'
+              message: 'Помилка! РНОКПП вже зайнятий!'
             });
             return;
           }
@@ -61,7 +61,7 @@ const checkRightsExisted = (req, res, next) => {
       for (let i = 0; i < req.body.rights.length; i++) {
         if (!RIGHTS.includes(req.body.rights[i])) {
           return res.status(400).send({
-            message: 'Failed! Right does not exist = ' + req.body.rights[i]
+            message: 'Помилка! Не існує таких прав доступу: ' + req.body.rights[i]
           });
         }
       }
@@ -79,7 +79,7 @@ const checkWorkplaceExisted = (req, res, next) => {
     //   .then(work => {
     //     if (!work) {
     //       return res.status(400).send({
-    //         message: 'Workplace not found',
+    //         message: 'Місце роботи не знайдено',
     //       });
     //     }
 
@@ -94,7 +94,7 @@ const checkWorkplaceExisted = (req, res, next) => {
       .then(work => {
         if (!work) {
           return res.status(400).send({
-            message: 'Workplace not found',
+            message: 'Місце роботи не знайдено',
           });
         }
         req.body.workplace_id = work.id;

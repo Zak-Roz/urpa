@@ -69,7 +69,7 @@ exports.create = (req, res) => {
     registrar_id: req.body.registrar_id,
     property: req.body.property,
   }).then(() => {
-    res.send({ message: 'Poa was created successfully!' });
+    res.send({ message: 'Довіреність успішно створено!' });
   });
   //   .catch(err => {
   //     res.status(500).send({ message: err.message });
@@ -84,7 +84,7 @@ exports.update = (req, res) => {
   Poa.findByPk(req.body.poa_id)
     .then(poa => {
       if (!poa) {
-        return res.status(404).send({ message: 'Poa Not found.' });
+        return res.status(404).send({ message: 'Довіреність не знайдено.' });
       }
       Poa.update({ status_id: 2 }, {
         where: {

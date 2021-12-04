@@ -17,7 +17,7 @@ userRouter
   .get('/admin',[authJwt.verifyToken, authJwt.isAdmin],controller.adminBoard);
 
 userRouter.use(() => {
-  // throw new myError(400, 'command not found');
+  // throw new myError(400, 'Команду не знайдено');
 });
 
 module.exports = userRouter;
