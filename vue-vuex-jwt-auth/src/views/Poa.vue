@@ -21,7 +21,7 @@
         <td>
           <input 
             v-model="poa.principal_name"
-            v-validate="'required|min:3|max:25'"
+            v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
             type="text"
             class="form-control" 
             name="principal_name" 
@@ -33,7 +33,7 @@
         <td>
           <input 
             v-model="poa.principal_code"
-            v-validate="{required: true, length: isLegalOrIndividual()}"
+            v-validate="{required: true, length: isLegalOrIndividualP()}"
             type="number"
             class="form-control" 
             name="principal_code" 
@@ -59,7 +59,7 @@
         <td class="td-width">
           <input 
             v-model="poa.confident_name"
-            v-validate="'required|min:3|max:25'"
+            v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/, is_not: poa.principal_name}"
             type="text"
             class="form-control" 
             name="confident_name" 
@@ -71,7 +71,7 @@
         <td>
           <input 
             v-model="poa.confident_code"
-            v-validate="'required|min:3|max:25'"
+            v-validate="{required: true, length: isLegalOrIndividualC()}"
             type="text"
             class="form-control" 
             name="confident_code" 
@@ -88,22 +88,24 @@
       <tbody>
       <!-- dates -->
       <tr>
-        <td width="33%">
+        <td width="50%">
           <lable for="certification_date">Дата посвідчення</lable>
         </td>
-        <td width="33%">
+        <!-- <td width="33%">
           <lable for="registration_date">Дата реєстрації</lable>
-        </td>
-        <td width="33%">
+        </td> -->
+        <td width="50%">
           <lable for="expiry_date">Термін дії</lable>
         </td>
       </tr>
       <tr>
         <td>
+          <!-- |date_format:yyyy-MM-dd|date_between:1990-01-01,${this.dateNow} -->
           <input
             v-model="poa.certification_date"
-            v-validate="'required'"
+            v-validate="`required|date_format:yyyy-MM-dd|date_between:1990-01-01,${this.dateNow}`"
             type="date"
+            
             class="form-control"
             name="certification_date"
           />
@@ -111,7 +113,7 @@
             {{errors.first('certification_date')}}
           </div>
         </td>
-        <td>
+        <!-- <td>
           <input
             v-model="poa.registration_date"
             v-validate="'required'"
@@ -122,11 +124,11 @@
           <div v-if="submitted && errors.has('registration_date')" class="alert-danger">
             {{errors.first('registration_date')}}
           </div>
-        </td>
+        </td> -->
         <td>
           <input
             v-model="poa.expiry_date"
-            v-validate="'required'"
+            v-validate="`required|date_format:yyyy-MM-dd|date_between:${this.dateNow},2200-01-01`"
             type="date"
             class="form-control"
             name="expiry_date"
@@ -138,21 +140,21 @@
       </tr>
       <!-- numbers and series -->
       <tr>
-        <td width="33%">
+        <td width="50%">
           <lable for="blank_series">Серія</lable>
         </td>
-        <td width="33%">
+        <td width="50%">
           <lable for="blank_number">Номер</lable>
         </td>
-        <td width="33%">
+        <!-- <td width="33%">
           <lable for="register_number">Номер в реєстрі</lable>
-        </td>
+        </td> -->
       </tr>
       <tr>
         <td class="td-width">
           <input
             v-model="poa.blank_series"
-            v-validate="'required'"
+            v-validate="{ required: true, length: 3, regex: /^[А-ЯІЇ]+$/ }"
             type="text"
             class="form-control"
             name="blank_series"
@@ -164,7 +166,7 @@
         <td>
           <input
             v-model="poa.blank_number"
-            v-validate="'required'"
+            v-validate="{ required: true, length: 6 }"
             type="number"
             class="form-control"
             name="blank_number"
@@ -173,7 +175,7 @@
             {{errors.first('blank_number')}}
           </div>
         </td>
-        <td>
+        <!-- <td>
           <input
             v-model="poa.register_number"
             v-validate="'required'"
@@ -184,7 +186,7 @@
           <div v-if="submitted && errors.has('register_number')" class="alert-danger">
             {{errors.first('register_number')}}
           </div>
-        </td>
+        </td> -->
       </tr>
       </tbody>
     </table>
@@ -198,7 +200,7 @@
             v-validate="'required'"
             type="text"
             class="form-control"
-            name="blank_series" 
+            name="property" 
             placeholder="property" 
             rows="2"></textarea>
             <div v-if="submitted && errors.has('property')" class="alert-danger">
@@ -243,6 +245,10 @@ export default {
       submitted: false,
       successful: false,
       message: '',
+      currentMonth: (new Date().getMonth() + 1) < 10 ? `0${(new Date().getMonth() + 1)}` : `${(new Date().getMonth() + 1)}`,
+      currentDay: new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`,
+      currentYear: new Date().getFullYear(),
+      dateNow: '',
       // showModal: false,
       // fullname: 'asdasd',
       // rights: ["admin", "moderator", "user"],
@@ -255,6 +261,8 @@ export default {
     // }
   },
   async mounted() {
+    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
+    alert(this.dateNow);
     // if (this.loggedIn) {
     //   this.$router.push('/profile');
     // }
@@ -274,6 +282,7 @@ export default {
   },
   methods: {
     handleRegister() {
+      alert(this.poa.certification_date)
       this.message = '';
       this.submitted = true;
       this.$validator.validate().then(isValid => {
@@ -321,8 +330,15 @@ export default {
 //       }
 //       return 4;
 //     },
-    isLegalOrIndividual() {
+    isLegalOrIndividualP() {
+      // alert(this.codePrincipal)
       if (this.codePrincipal === 'Код ЄДРПОУ довірителя') {
+        return 8;
+      }
+      return 10;
+    },
+    isLegalOrIndividualC() {
+      if (this.codeConfident === 'Код ЄДРПОУ довірителя') {
         return 8;
       }
       return 10;
@@ -336,6 +352,14 @@ export default {
       }
     },
     checkConfident(event) {
+      if (event.target.value === 'UrC') {
+        this.codeConfident = 'Код ЄДРПОУ довірителя';
+      }
+      if (event.target.value === 'FullC') {
+        this.codeConfident = 'РНОКПП';
+      }
+    },
+    isSeriesRegex(event) {
       if (event.target.value === 'UrC') {
         this.codeConfident = 'Код ЄДРПОУ довірителя';
       }
