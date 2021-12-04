@@ -71,7 +71,7 @@
         <td>
           <input 
             v-model="poa.confident_code"
-            v-validate="{required: true, length: isLegalOrIndividualC()}"
+            v-validate="{required: true, length: isLegalOrIndividualC(), is_not: principal_code}"
             type="text"
             class="form-control" 
             name="confident_code" 
@@ -262,19 +262,19 @@ export default {
   },
   async mounted() {
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-    alert(this.dateNow);
+    // alert(this.dateNow);
     // if (this.loggedIn) {
     //   this.$router.push('/profile');
     // }
-    // this.user.rights = [];
-    // this.user.fullname = 'FfF';
-    // this.user.dob = '1995-10-21';
-    // this.user.login = 'aqws@cc.oo';
-    // this.user.passportNumber = '145236987';
-    // this.user.passportIssueDate = '2025-10-21';
-    // this.user.passportAuthority = '1111';
-    // this.user.organization_name = 'a';
-    // this.user.rntrc = '4785124369';
+    this.poa.confident_code = 1112223334;
+    this.poa.confident_name = 'FfF';
+    this.poa.principal_code = 1112223324;
+    this.poa.principal_name = 'aqws@cc.oo';
+    this.poa.expiry_date = '145236987';
+    this.poa.certification_date = '2025-10-21';
+    this.poa.blank_number = '1111';
+    this.poa.blank_series = 'a';
+    this.poa.property = '4785124369';
     // this.uploadWorkSelect()
     // this.works = (await this.$store.dispatch('work/getAll')).data;
 // eslint-disable-next-line no-debugger
@@ -282,7 +282,7 @@ export default {
   },
   methods: {
     handleRegister() {
-      alert(this.poa.certification_date)
+      // alert(this.poa.certification_date)
       this.message = '';
       this.submitted = true;
       this.$validator.validate().then(isValid => {

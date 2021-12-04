@@ -13,7 +13,7 @@
             <label for="fullname">ПІБ</label>
             <input
               v-model="user.fullname"
-              v-validate="'required|min:3|max:25'"
+              v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
               type="text"
               class="form-control"
               name="fullname"
@@ -74,7 +74,7 @@
             <label for="passport issue date">Дата видачі паспорту</label>
             <input
               v-model="user.passportIssueDate"
-              v-validate="'required'"
+              v-validate="`required|date_format:yyyy-MM-dd|date_between:1991-08-24,${this.dateNow}`"
               type="date"
               class="form-control"
               name="passport issue date"
@@ -236,7 +236,7 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
-      <div v-if="message && !message.match(/Failed|found|invalid/g)">
+      <div v-if="message && !message.match(/Failed|found|invalid|not|Not|Network|network/g)">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Новий користувач системи</button>
       </div>
     </div>
@@ -262,6 +262,10 @@ export default {
       message: '',
       showModal: false,
       fullname: 'asdasd',
+      currentMonth: (new Date().getMonth() + 1) < 10 ? `0${(new Date().getMonth() + 1)}` : `${(new Date().getMonth() + 1)}`,
+      currentDay: new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`,
+      currentYear: new Date().getFullYear(),
+      dateNow: '',
       // rights: ["admin", "moderator", "user"],
       works: [],
     };
@@ -275,8 +279,9 @@ export default {
     // if (this.loggedIn) {
     //   this.$router.push('/profile');
     // }
+    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
     this.user.rights = [];
-    this.user.fullname = 'FfF';
+    this.user.fullname = 'Ааа Ббб Ввв';
     this.user.dob = '1995-10-21';
     this.user.login = 'aqws@cc.oo';
     this.user.passportNumber = '145236987';
@@ -295,7 +300,7 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          alert(JSON.stringify(this.user));
+          // alert(JSON.stringify(this.user));
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = data.message;
