@@ -43,12 +43,12 @@ function initialWorkplace() {
   Workplace.create({ email: 'ab', organization_name: 'ab' });
   Workplace.create({ email: 'abc', organization_name: 'abc' });
 }
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log('\n\nDrop and Resync Database with { force: true }\n\n');
-//   initialRight();
-//   initialStatus();
-//   initialWorkplace();
-// });
+ db.sequelize.sync({ force: true }).then(() => {
+   console.log('\n\nDrop and Resync Database with { force: true }\n\n');
+   initialRight();
+   initialStatus();
+   initialWorkplace();
+ });
 //
 
 
