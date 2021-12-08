@@ -5,17 +5,21 @@ const Poa = db.poa;
 // get Poa from Database
 exports.getOne = async (req, res) => {
   try {
+    // console.log(req);
+    // return res.json(req.query);
     const {
       blank_series, blank_number,
       register_number, registration_date
     } = req.query;
 
-    let poas;
+    let poas = null;
 
-    if (!blank_series && !blank_number
-      && !register_number && !registration_date) {
-      poas = await Poa.findAll();
-    } //for debugging get all poas
+    //for debugging get all poas
+
+    // if (!blank_series && !blank_number
+    //   && !register_number && !registration_date) {
+    //   poas = await Poa.findAll();
+    // } 
 
     if (blank_number && blank_series) {
       poas = await Poa.findOne({
@@ -27,24 +31,40 @@ exports.getOne = async (req, res) => {
     }
 
     if (register_number && registration_date) {
-      poas = await Poa.findOne({
-        where: {
-          register_number,
-          registration_date
-        }
-      });
+      await Poa.findByPk(register_number)
+        .then((result) => {
+          if (result.registration_date === registration_date) {
+            poas = result;
+          }
+        })
+        .catch((err) => {
+          return { err };
+        });
     }
 
-    if (register_number && registration_date && blank_number ||
-      register_number && registration_date && blank_series) {
-      poas = await Poa.findOne({
-        where: {
-          register_number,
-          registration_date
-        }
-      });
-    }
+    // if (register_number && registration_date && blank_number ||
+    //   register_number && registration_date && blank_series) {
+    //   poas = await Poa.findOne({
+    //     where: {
+    //       register_number,
+    //       registration_date
+    //     }
+    //   });
+    // }
 
+    return res.json(poas);
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+exports.getById = async (req, res) => {
+  try {
+    const { pkId } = req.query;
+    let poas = null;
+    if (pkId) {
+      await Poa.findByPk(pkId).then((result) => { poas = result; });
+    }
     return res.json(poas);
   } catch (err) {
     res.status(500).send({ message: err.message });

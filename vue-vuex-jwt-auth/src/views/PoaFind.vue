@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12">
     <div class="">
-      <form style="margin: 50px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
+      <form style="margin: 50px 0 0 0; padding: 0 20%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <!-- dates&numbers and series -->
           <table width="100%" cellpadding="5">
@@ -19,7 +19,7 @@
               <td>
                 <input
                   v-model="poa.registration_date"
-                  v-validate="`required|date_format:yyyy-MM-dd|date_between:1990-01-01,${this.dateNow}`"
+                  v-validate="{ required: isRequiredDate(), date_format: 'yyyy-MM-dd', date_between:['1991-08-24', this.dateNow] }"
                   type="date"
                   class="form-control"
                   name="registration_date"
@@ -31,7 +31,7 @@
               <td>
                 <input
                   v-model="poa.register_number"
-                  v-validate="'required'"
+                  v-validate="{ required: isRequiredNumRe() }"
                   type="number"
                   class="form-control"
                   name="register_number"
@@ -41,20 +41,23 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <td width="100%" colspan="2" style="text-align: center; padding: 20px 0;"><b>АБО</b></td>
+            </tr>
             <!-- numbers and series -->
             <tr>
               <td width="50%">
-                <lable for="blank_series">Серія</lable>
+                <lable for="blank_series">Серія бланка</lable>
               </td>
               <td width="50%">
-                <lable for="blank_number">Номер</lable>
+                <lable for="blank_number">Номер бланка</lable>
               </td>
             </tr>
             <tr>
               <td class="td-width">
                 <input
                   v-model="poa.blank_series"
-                  v-validate="{ required: true, length: 3, regex: /^[А-ЯІЇ]+$/ }"
+                  v-validate="{ required: isRequiredSer(), length: 3, regex: /^[А-ЯІЇ]+$/ }"
                   type="text"
                   class="form-control"
                   name="blank_series"
@@ -66,7 +69,7 @@
               <td>
                 <input
                   v-model="poa.blank_number"
-                  v-validate="{ required: true, length: 6 }"
+                  v-validate="{ required: isRequiredNum(), length: 6 }"
                   type="number"
                   class="form-control"
                   name="blank_number"
@@ -137,10 +140,17 @@ export default {
       this.$validator.validate().then(isValid => {
         if (isValid) {
           // alert(JSON.stringify(this.poa));
-          this.$store.dispatch('poa/find', this.poa).then(
+          this.$store.dispatch('poa/getByParam', this.poa).then(
             data => {
-              this.message = data.message;
-              this.successful = true;
+              this.message = data.data;
+              if (this.message === null) {
+                this.successful = false;
+                alert('Довіреності не знайдено')
+              } else {
+                this.successful = true;
+                alert(JSON.stringify(this.message))
+                this.$router.push({ path: `/poa/${data.data.id}` })
+              }
             },
             error => {
               this.message =
@@ -189,6 +199,38 @@ export default {
       if (event.target.value === 'FullC') {
         this.codeConfident = 'РНОКПП';
       }
+    },
+    isRequiredDate() {
+      if (this.poa.register_number) {
+        if (this.poa.blank_number && this.poa.blank_series) return false;
+        return true;
+      }
+      if (this.poa.blank_number || this.poa.blank_series) return false;
+      return true;
+    },
+    isRequiredNumRe() {
+      if (this.poa.registration_date) {
+        if (this.poa.blank_number && this.poa.blank_series) return false;
+        return true;
+      }
+      if (this.poa.blank_number || this.poa.blank_series) return false;
+      return true;
+    },
+    isRequiredSer() {
+      if (this.poa.blank_number) {
+        if (this.poa.registration_date && this.poa.register_number) return false;
+        return true;
+      }
+      if (this.poa.registration_date || this.poa.register_number) return false;
+      return true;
+    },
+    isRequiredNum() {
+      if (this.poa.blank_series) {
+        if (this.poa.registration_date && this.poa.register_number) return false;
+        return true;
+      }
+      if (this.poa.registration_date || this.poa.register_number) return false;
+      return true;
     },
   }
 };

@@ -6,6 +6,7 @@ import Register from './views/Register.vue';
 import Modal from './views/Modal.vue';
 import NewPoa from './views/NewPoa.vue';
 import PoaFind from './views/PoaFind.vue';
+import Poa from './views/Poa.vue';
 
 Vue.use(Router);
 
@@ -36,6 +37,11 @@ export const router = new Router({
     {
       path: '/find-poa',
       component: PoaFind
+    },
+    {
+      path: '/poa/:id',
+      component: Poa,
+      props: true,
     },
     {
       path: '/add-poa',

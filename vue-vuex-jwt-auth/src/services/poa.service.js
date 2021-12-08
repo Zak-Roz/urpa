@@ -3,12 +3,9 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/poa/';//api/poa/new
 
 class Poa {
-  // TODO getByName poa
   getByParam(poa) {
     return axios
-      .get(API_URL + 'getOne', {
-        organization_name: poa.organization_name,
-      })
+      .get(API_URL + `getOne?registration_date=${poa.registration_date}&register_number=${poa.register_number}&blank_number=${poa.blank_number}&blank_series=${poa.blank_series}&`)
       .then(response => {
         return response;
       });
@@ -17,6 +14,10 @@ class Poa {
   // TODO getAll poa
   getAll() {
     return axios.get(API_URL + 'getAll', {});
+  }
+  
+  getById(id) {
+    return axios.get(API_URL + `getById?pkId=${id}`);
   }
 
   new(poa) {

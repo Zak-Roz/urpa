@@ -4,9 +4,9 @@ export const poa = {
 
   namespaced: true,
   actions: {
-  // TODO getByName poa
-    getByName(_, data) {
-      return Poa.getByName(data).then(
+  // TODO getByParam poa
+    getByParam(_, data) {
+      return Poa.getByParam(data).then(
         getData => {
           return Promise.resolve(getData);
         },
@@ -18,6 +18,9 @@ export const poa = {
   // TODO getAll poa
     getAll() {
       return Poa.getAll();
+    },
+    getById(_, id) {
+      return Poa.getById(id);
     },
     new(_, data) {
       return Poa.new(data).then(

@@ -101,10 +101,10 @@
             </tr>
             <tr>
               <td>
-                <!-- |date_format:yyyy-MM-dd|date_between:1990-01-01,${this.dateNow} -->
+                <!-- |date_format:yyyy-MM-dd|date_between:1991-08-24,${this.dateNow} -->
                 <input
                   v-model="poa.certification_date"
-                  v-validate="`required|date_format:yyyy-MM-dd|date_between:1990-01-01,${this.dateNow}`"
+                  v-validate="`required|date_format:yyyy-MM-dd|date_between:1991-08-24,${this.dateNow}`"
                   type="date"
                   
                   class="form-control"
@@ -251,8 +251,8 @@ export default {
   data() {
     return {
       poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
-      codePrincipal: 'РНОКПП',
-      codeConfident: 'РНОКПП',
+      codePrincipal: 'РНОКПП довірителя',
+      codeConfident: 'РНОКПП довіреної особи',
       // work: new Work('', ''),
       submitted: false,
       successful: false,
@@ -350,7 +350,7 @@ export default {
       return 10;
     },
     isLegalOrIndividualC() {
-      if (this.codeConfident === 'Код ЄДРПОУ довірителя') {
+      if (this.codeConfident === 'Код ЄДРПОУ довіреної особи') {
         return 8;
       }
       return 10;
@@ -360,23 +360,15 @@ export default {
         this.codePrincipal = 'Код ЄДРПОУ довірителя';
       }
       if (event.target.value === 'FullP') {
-        this.codePrincipal = 'РНОКПП';
+        this.codePrincipal = 'РНОКПП довірителя';
       }
     },
     checkConfident(event) {
       if (event.target.value === 'UrC') {
-        this.codeConfident = 'Код ЄДРПОУ довірителя';
+        this.codeConfident = 'Код ЄДРПОУ довіреної особи';
       }
       if (event.target.value === 'FullC') {
-        this.codeConfident = 'РНОКПП';
-      }
-    },
-    isSeriesRegex(event) {
-      if (event.target.value === 'UrC') {
-        this.codeConfident = 'Код ЄДРПОУ довірителя';
-      }
-      if (event.target.value === 'FullC') {
-        this.codeConfident = 'РНОКПП';
+        this.codeConfident = 'РНОКПП довіреної особи';
       }
     },
   }

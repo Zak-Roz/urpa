@@ -12,6 +12,7 @@ poaRouter
     next();
   })
   .get('/getOne', controller.getOne)
+  .get('/getById', controller.getById)
   .post('/new',
     [
       verifyPoa.checkDuplicateBlank_SAN,
