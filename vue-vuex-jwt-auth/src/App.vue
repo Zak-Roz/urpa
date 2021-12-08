@@ -17,6 +17,9 @@
         <li class="nav-item">
           <router-link v-if="currentUser" to="/user" class="nav-link">Сторінка Користувача</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/help" class="nav-link">Допомога</router-link>
+        </li>
       </div>
 
       <div v-if="!currentUser" class="navbar-nav ml-auto">

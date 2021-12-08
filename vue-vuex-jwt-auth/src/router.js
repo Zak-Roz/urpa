@@ -7,6 +7,7 @@ import Modal from './views/Modal.vue';
 import NewPoa from './views/NewPoa.vue';
 import PoaFind from './views/PoaFind.vue';
 import Poa from './views/Poa.vue';
+import Help from './views/Help.vue';
 
 Vue.use(Router);
 
@@ -17,6 +18,11 @@ export const router = new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: Help
     },
     {
       path: '/home',
