@@ -1,45 +1,63 @@
 <template>
   <div class="container">
-    <h1>Потрібна допомога? Напишіть нам!</h1>
-    <form @submit.prevent="handleEmail" method="POST">
-      <label for="email">Ваша електронна пошта</label>
-      <input
-        v-model="email_from"
-        v-validate="'required|email|max:50'"
-        type="email"
-        class="form-control"
-        name="email" />
-        <div
-          v-if="errors.has('email')"
-          class="alert alert-danger"
-          role="alert"
-        >Електронна пошта є обов'язковою!</div>
-     <label for="subject">Коротко опишіть, що сталося (Не менше 10 символів)</label>
-      <input
-        v-model="email_subject"
-        v-validate="'required|min:10'"
-        type="text"
-        class="form-control"
-        name="subject" />
-        <div
-          v-if="errors.has('subject')"
-          class="alert alert-danger"
-          role="alert"
-        >Це поле є обов'язковим!</div>
-     <label for="body">Детально опишіть, у чому полягає Ваша проблема (не менше 30 символів)</label>
-      <textarea
-        v-model="email_body"
-        v-validate="'required|min:30'"
-        type="text"
-        class="form-control"
-        name="body" />
-        <div
-          v-if="errors.has('body')"
-          class="alert alert-danger"
-          role="alert"
-        >Це поле є обов'язковим!</div>
-      <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Надіслати листа</button>
-    </form>
+    <div class="row">
+      <div class="col">
+        <h1 align="center" class="mt-5">Служба підтримки</h1>
+        <form @submit.prevent="handleEmail" method="POST" class="text-center">
+          <label for="email" class="mt-3 mb-2">Ваша електронна пошта</label>
+          <input
+            v-model="email_from"
+            v-validate="'required|email|max:50'"
+            type="email"
+            class="form-control"
+            name="email" />
+            <div
+              v-if="errors.has('email')"
+              class="alert alert-danger"
+              role="alert"
+            >Електронна пошта є обов'язковою!</div>
+        <label for="subject" class="mt-3 mb-2">Оберіть категорію проблеми</label>
+          <v-select 
+            v-model="email_subject"
+            v-validate="'required'"
+            name="subject"
+            :options="subjects"
+            label="subject"
+          ></v-select>
+            <div
+              v-if="errors.has('subject')"
+              class="alert alert-danger"
+              role="alert"
+            >Це поле є обов'язковим!</div>
+        <label for="body" class="mt-3 mb-2">Детально опишіть, у чому полягає Ваша проблема (не менше 30 символів)</label>
+          <textarea
+            v-model="email_body"
+            v-validate="'required|min:30'"
+            type="text"
+            class="form-control"
+            name="body" />
+            <div
+              v-if="errors.has('body')"
+              class="alert alert-danger"
+              role="alert"
+            >Це поле є обов'язковим!</div>
+          <div class="col text-center">
+            <button type="submit" @submit.prevent="next" class="btn btn-primary mt-5" >Надіслати листа</button>
+          </div>
+        </form>
+      </div>
+      <div class="col ml-5">
+        <h1 align="center" class="mt-5">Контакти</h1>
+        <div class="card border-0" align="center">
+          <h5 class="card-title mt-3 mb-2">Адреса</h5>
+          <p class="card-text">Вул. Бульварно-Кудрявська, 4, м. Київ, 04053</p>
+          <h5 class="card-title mt-3 mb-2">Call-центр</h5>
+          <p class="card-text">0-800-508-584</p>
+          <h5 class="card-title mt-3 mb-2">Технічна підтримка</h5>
+          <a class="card-text" href="mailto:edr.gov.ua@gmail.com">edr.gov.ua@gmail.com</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,6 +72,8 @@ export default {
       email_from: '',
       email_subject: '',
       email_body: '',
+      subjects: ["Проблеми з пошуком довіреності", "Проблеми з редагуванням довіреності",
+        "Проблеми зі створенням витягу", "Проблеми з реєстрацією у системі", "Проблеми з авторизацією у системі", "Інше"]
     };
   },
   methods: {
@@ -62,7 +82,6 @@ export default {
         if (isValid) {
           Email.send({
             Host: "smtp.gmail.com",
-              //Note: best to replace with environment values or SMTP token.
             Username: "edr.gov.ua@gmail.com",
             Password: "ItIsNewPassw0rdInEDR",
             To: "edr.gov.ua@gmail.com",
@@ -85,21 +104,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-h1 {
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-label {
-  display: block;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-
-button {
-  margin-top: 50px;
-}
-</style>
