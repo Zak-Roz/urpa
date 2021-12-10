@@ -29,7 +29,7 @@ const checkDuplicateBlank_SAN = (req, res, next) => {
 const checkDuplicateAll = (req, res, next) => {
   try {
     // confident_name
-    console.log(req.body);
+    // console.log(req.body);
     Poa.findOne({
       where: {
         confident_name: req.body.confident_name,
@@ -40,9 +40,9 @@ const checkDuplicateAll = (req, res, next) => {
         expiry_date: req.body.expiry_date,
       }
     }).then(poa => {
-      console.log('/n/n/n');
-      console.log(poa);
-      console.log('/n/n/n');
+      // console.log('/n/n/n');
+      // console.log(poa);
+      // console.log('/n/n/n');
       if (poa) {
         res.status(400).send({
           message: 'Помилка! Дані вже є в реєстрі!'

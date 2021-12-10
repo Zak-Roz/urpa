@@ -8,6 +8,19 @@ class UserService {
     return axios.get(API_URL + 'all');
   }
 
+  allUsers() {
+    return axios.get(API_URL + 'allUsers');
+  }
+
+  findUserInDb(user) {
+    // return API_URL + `findUser?passport_serias=${user.passportSeries}&rntrc=${user.rntrc}&passport_number=${user.passportNumber}&login=${user.login}&fullname=${user.fullname}`
+    return axios.get(API_URL + `findUser?passport_serias=${user.passportSeries}&rntrc=${user.rntrc}&passport_number=${user.passportNumber}&login=${user.login}&fullname=${user.fullname}`);
+  }
+
+  getById(id) {
+    return axios.get(API_URL + `getById?id=${id}`);
+  }
+
   getUserBoard() {
     return axios.get(API_URL + 'user', { headers: authHeader() });
   }

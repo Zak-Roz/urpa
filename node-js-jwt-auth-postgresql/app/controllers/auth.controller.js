@@ -8,8 +8,8 @@ const Right = db.right;
 
 const Op = db.Sequelize.Op;
 
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 function sendEmail(password, user) {
   let transporter = nodemailer.createTransport({
@@ -65,14 +65,14 @@ exports.signup = (req, res) => {
         }).then(rights => {
           user.setRights(rights).then(() => {
             // sendEmail(password, user);
-            res.send({ message: 'Користувача успішно зареєстровано!' });
+            res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
           });
         });
       } else {
       // user right = 1
         user.setRights([1]).then(() => {
           // sendEmail(password, user);
-          res.send({ message: 'Користувача успішно зареєстровано!' });
+          res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
         });
       }
     }).catch(err => {
@@ -93,7 +93,7 @@ exports.signin = (req, res) => {
         return res.status(404).send({ message: 'Користувача не знайдено.' });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
+      const passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
@@ -105,7 +105,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      const token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: 5400 // 24 hours -> 86400
       });
 
@@ -118,7 +118,7 @@ exports.signin = (req, res) => {
       }
       
 
-      var authorities = [];
+      const authorities = [];
       user.getRights().then(rights => {
         for (let i = 0; i < rights.length; i++) {
           authorities.push('RIGHT_' + rights[i].name.toUpperCase());

@@ -32,7 +32,7 @@
         <label for="body" class="mt-3 mb-2">Детально опишіть, у чому полягає Ваша проблема (не менше 30 символів)</label>
           <textarea
             v-model="email_body"
-            v-validate="'required|min:30'"
+            v-validate="'required'"
             type="text"
             class="form-control"
             name="body" />
@@ -66,7 +66,7 @@
 <script>
 
 export default {
-  name: 'Email',
+  name: 'Help',
   data() {
     return {
       email_from: '',
@@ -80,15 +80,16 @@ export default {
     handleEmail () {
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          Email.send({
+          const bodyToSent = {
             Host: "smtp.gmail.com",
-            Username: "edr.gov.ua@gmail.com",
-            Password: "ItIsNewPassw0rdInEDR",
-            To: "edr.gov.ua@gmail.com",
+            Username: `${process.env.VUE_APP_EMAIL_NAME}`, 
+            Password: `${process.env.VUE_APP_EMAIL_PASSWORD}`,
+            To: `${process.env.VUE_APP_EMAIL_NAME}`,
             From: this.email_from,
             Subject: this.email_subject,
             Body: this.email_body,
-          }).then(
+          }
+          Email.send(bodyToSent).then(
             alert("Лист було успішно надіслано!")
           ).catch(err =>
             alert(`На жаль, виникла помилка: ${err}. Спробуйте, будь ласка, пізніше`)

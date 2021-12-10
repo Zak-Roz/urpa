@@ -6,7 +6,7 @@ const Workplace = db.workplace;
 const checkDuplicateUser = (req, res, next) => {
   try {
   // Login
-    console.log(req.body);
+    // console.log(req.body);
     User.findOne({
       where: {
         login: req.body.login,
@@ -16,7 +16,7 @@ const checkDuplicateUser = (req, res, next) => {
         res.status(400).send({
           message: 'Помилка! Електронна пошта вже зайнята!'
         });
-        console.log('\n\n\nПомилка! Електронна пошта вже зайнята!\n\n\n');
+        // console.log('\n\n\nПомилка! Електронна пошта вже зайнята!\n\n\n');
         return;
       }
       // passport_number

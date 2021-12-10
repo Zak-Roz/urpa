@@ -1,5 +1,5 @@
 module.exports = {
   devServer: {
-    port: 8081
+    port: process.env.VUE_APP_PORT
   }
 }

@@ -1,13 +1,13 @@
 <template>
   <div class="col-md-12">
     <div class="card card-container">
+      <div v-if="!successful && access">
+      <form name="form" @submit.prevent="handleRegister">
       <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
       />
-      <form name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
           <!-- fullname -->
           <div class="form-group">
             <label for="fullname">ПІБ</label>
@@ -228,9 +228,15 @@
           <div class="form-group">
             <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Зареєструватися</button>
           </div>
-        </div>
       </form>
-
+      </div>
+      <div v-if="!access"
+      class="alert"
+      style="text-align: center;"
+      :class="'alert-danger'"
+      >
+        У вас немає доступа!
+      </div>
       <div
         v-if="message"
         class="alert"
@@ -255,6 +261,7 @@ export default {
   name: 'Register',
   data() {
     return {
+      access: false,
       user: new User('', '', '', '', '', '', '', '', '', '', ''),
       work: new Work('', ''),
       submitted: false,
@@ -290,6 +297,8 @@ export default {
     this.user.organization_name = 'a';
     this.user.rntrc = '4785124369';
     this.uploadWorkSelect()
+    const local = JSON.parse(localStorage.getItem('user'));
+    this.access = local.rights.some((el) => el === 'RIGHT_ADMIN');
     // this.works = (await this.$store.dispatch('work/getAll')).data;
 // eslint-disable-next-line no-debugger
     // debugger;

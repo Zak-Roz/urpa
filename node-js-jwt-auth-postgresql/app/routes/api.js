@@ -12,4 +12,7 @@ router.use('/poa', poaRouter);
 const workplaceRouter = require('./workplace');
 router.use('/workplace', workplaceRouter);
 
+const pdfRouter = require('./pdf');
+router.use('/pdf', pdfRouter);
+
 module.exports = router;

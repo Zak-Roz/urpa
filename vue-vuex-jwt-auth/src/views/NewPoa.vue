@@ -72,7 +72,7 @@
               <td>
                 <input 
                   v-model="poa.confident_code"
-                  v-validate="{required: true, length: isLegalOrIndividualC(), is_not: principal_code}"
+                  v-validate="{required: true, length: isLegalOrIndividualC(), is_not: poa.principal_code}"
                   type="text"
                   class="form-control" 
                   name="confident_code" 

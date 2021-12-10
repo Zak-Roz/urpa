@@ -8,6 +8,8 @@ import NewPoa from './views/NewPoa.vue';
 import PoaFind from './views/PoaFind.vue';
 import Poa from './views/Poa.vue';
 import Help from './views/Help.vue';
+import FindUser from './views/FindUser.vue';
+import User from './views/User.vue';
 
 Vue.use(Router);
 
@@ -18,6 +20,11 @@ export const router = new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/find-user',
+      name: 'findUser',
+      component: FindUser
     },
     {
       path: '/help',
@@ -47,6 +54,11 @@ export const router = new Router({
     {
       path: '/poa/:id',
       component: Poa,
+      props: true,
+    },
+    {
+      path: '/user/:id',
+      component: User,
       props: true,
     },
     {

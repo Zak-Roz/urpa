@@ -1,7 +1,9 @@
 <template>
 <div>
-  <div style="margin: 30px 0 0 0" v-if="poa">
+  <div v-if="poa">
+    <h1 style="text-align: center; margin: 30px 0 30px 0"><b>Довіреність №{{poa.id}}</b></h1>
     <table class="table table-striped table-hover">
+
       <thead>
         <tr>
           <th scope="col">Номер в реєстрі</th>

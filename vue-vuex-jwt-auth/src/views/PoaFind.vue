@@ -1,8 +1,8 @@
 <template>
   <div class="col-md-12">
-    <div class="">
+    <div>
       <form style="margin: 50px 0 0 0; padding: 0 20%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
+        <div v-if="!successful && access">
           <!-- dates&numbers and series -->
           <table width="100%" cellpadding="5">
             <tbody>
@@ -105,6 +105,13 @@
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
       </div>
     </div>
+    <div v-if="!access"
+    class="alert"
+    style="text-align: center;"
+    :class="'alert-danger'"
+    >
+      У вас немає доступа!
+    </div>
   </div>
 </template>
 
@@ -115,6 +122,7 @@ export default {
   name: 'FindPoa',
   data() {
     return {
+      access: false,
       poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
       submitted: false,
       successful: false,
@@ -125,12 +133,14 @@ export default {
       dateNow: '',
     };
   },
-  async mounted() {
+  mounted() {
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
     this.poa.registration_date = '2015-10-21';
     this.poa.blank_number = '111222';
     this.poa.blank_series = 'ААА';
     this.poa.register_number = '1';
+    const local = JSON.parse(localStorage.getItem('user'));
+    this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR' || el === 'RIGHT_ADMIN' || el === 'RIGHT_USER');
   },
   methods: {
     handleRegister() {
@@ -148,7 +158,7 @@ export default {
                 alert('Довіреності не знайдено')
               } else {
                 this.successful = true;
-                alert(JSON.stringify(this.message))
+                // alert(JSON.stringify(this.message))
                 this.$router.push({ path: `/poa/${data.data.id}` })
               }
             },

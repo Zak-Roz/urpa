@@ -16,10 +16,10 @@ exports.getOne = async (req, res) => {
 
     //for debugging get all poas
 
-    // if (!blank_series && !blank_number
-    //   && !register_number && !registration_date) {
-    //   poas = await Poa.findAll();
-    // } 
+    if (!blank_series && !blank_number
+      && !register_number && !registration_date) {
+      poas = await Poa.findAll();
+    } 
 
     if (blank_number && blank_series) {
       poas = await Poa.findOne({

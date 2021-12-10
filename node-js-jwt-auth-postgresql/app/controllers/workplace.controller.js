@@ -23,7 +23,7 @@ exports.getAll = (req, res) => {
 exports.getByName = (req, res) => {
   try {
     const {organization_name, /*email*/} = req.query;
-    console.log('\n\n\n\n\n\n\n\n');
+    // console.log('\n\n\n\n\n\n\n\n');
     // console.log(email || organization_name);
     // if (email || organization_name) {
     Workplace.findOne({

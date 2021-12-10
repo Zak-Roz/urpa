@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <header class="jumbotron">
+      <div v-if="access">
       <h3>{{content}}</h3>
       <button v-if="!content.match(/No|found/g)" class="button">
         <router-link to="/register" class="but-link">
@@ -12,6 +13,19 @@
           <font-awesome-icon icon="user-plus" />Створити довіреність
         </router-link>
       </button>
+      <button v-if="!content.match(/No|found/g)" style="left: 10px" class="button">
+        <router-link to="/find-user" class="but-link">
+          <font-awesome-icon icon="user-plus" />Знайти користувача
+        </router-link>
+      </button>
+      </div>
+      <div v-if="!access"
+      class="alert"
+      style="text-align: center;"
+      :class="'alert-danger'"
+      >
+        У вас немає доступа!
+      </div>
     </header>
   </div>
 </template>
@@ -23,10 +37,13 @@ export default {
   name: 'Admin',
   data() {
     return {
-      content: ''
+      content: '',
+      access: false,
     };
   },
   mounted() {
+    const local = JSON.parse(localStorage.getItem('user'));
+    this.access = local.rights.some((el) => el === 'RIGHT_ADMIN');
     UserService.getAdminBoard().then(
       response => {
         this.content = response.data;

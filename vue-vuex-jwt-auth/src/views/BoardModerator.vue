@@ -1,7 +1,16 @@
 <template>
   <div class="container">
     <header class="jumbotron">
+    <div v-if="access">
       <h3>{{content}}</h3>
+    </div>
+      <div v-if="!access"
+      class="alert"
+      style="text-align: center;"
+      :class="'alert-danger'"
+      >
+        У вас немає доступа!
+      </div>
     </header>
   </div>
 </template>
@@ -13,10 +22,13 @@ export default {
   name: 'Moderator',
   data() {
     return {
+      access: false,
       content: ''
     };
   },
   mounted() {
+    const local = JSON.parse(localStorage.getItem('user'));
+    this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
     UserService.getModeratorBoard().then(
       response => {
         this.content = response.data;
