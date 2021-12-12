@@ -49,6 +49,22 @@ exports.getByName = (req, res) => {
   }
 };
 
+exports.getById = (req, res) => {
+  try {
+    Workplace.findByPk(req.query.id)
+      .then((work) => {
+        if (!work) {
+          throw new Error('Місце роботи не знайдено!');
+        }
+        return res.json(work);
+      }).catch(err => {
+        return res.status(500).send({ message: err.message });
+      });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+};
+
 exports.create = (req, res) => {
   // Save Workplace to Database
   try {

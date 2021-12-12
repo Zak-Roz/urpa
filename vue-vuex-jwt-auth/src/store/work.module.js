@@ -14,6 +14,16 @@ export const work = {
         }
       );
     },
+    getById(_, id) {
+      return WorkService.getById(id).then(
+        work => {
+          return Promise.resolve(work);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
     getAll() {
       return WorkService.getAll();
     },

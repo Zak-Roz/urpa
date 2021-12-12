@@ -90,10 +90,11 @@ exports.create = (req, res) => {
     // register_number: req.body.register_number,
     expiry_date: req.body.expiry_date,
     is_duplicate: req.body.is_duplicate || false,
+    is_active: true,
     registrar_id: req.body.registrar_id,
     property: req.body.property,
   }).then(() => {
-    res.send({ message: 'Довіреність успішно створено!' });
+    return res.send({ message: 'Довіреність успішно створено!' });
   });
   //   .catch(err => {
   //     res.status(500).send({ message: err.message });
@@ -105,15 +106,37 @@ exports.create = (req, res) => {
 
 // TODO poa update
 exports.update = (req, res) => {
-  Poa.findByPk(req.body.poa_id)
+  Poa.findByPk(req.body.id)
     .then(poa => {
       if (!poa) {
         return res.status(404).send({ message: 'Довіреність не знайдено.' });
       }
-      Poa.update({ status_id: 2 }, {
+      if (req.body.is_active === false) {
+        Poa.update({ 
+          // registrar_id: req.body.registrar_id,
+          is_active: false
+        }, {
+          where: {
+            id: req.body.id
+          }
+        }).then(() => {
+          return res.send({ message: 'Довіреність успішно деактивовано!' });
+        });
+      }
+      Poa.update({ 
+        principal_name: req.body.principal_name,
+        principal_code: req.body.principal_code,
+        confident_name: req.body.confident_name,
+        confident_code: req.body.confident_code,
+        certification_date: req.body.certification_date,
+        expiry_date: req.body.expiry_date,
+        property: req.body.property,
+      }, {
         where: {
-          login: req.body.login
+          id: req.body.id
         }
+      }).then(() => {
+        return res.send({ message: 'Довіреність успішно оновлено!' });
       });
     })
     .catch(err => {

@@ -83,7 +83,7 @@ export const router = new Router({
       props: true,
     },
     {
-      path: '/modal',
+      path: '/reg-work',
       component: Modal
     },
     {

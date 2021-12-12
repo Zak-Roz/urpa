@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const db = require('../models');
 const User = db.user;
 
@@ -16,6 +17,12 @@ exports.getById = async (req, res) => {
     let user = null;
     if (id) {
       user = await User.findByPk(id);
+      const authorities = [];
+      const rights = await  user.getRights();
+      for (let i = 0; i < rights.length; i++) {
+        authorities.push(rights[i].name);
+      }
+      return res.json({user, authorities});
     }
     return res.json(user);
   } catch (err) {
@@ -55,6 +62,50 @@ exports.findUser = async (req, res) => {
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
+};
+
+exports.updatePass = (req, res) => {
+  User.findOne({
+    where: {
+      login: req.body.login
+    }})
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: 'Користувача не знайдено.' });
+      }
+
+      const passwordDublicate = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (passwordDublicate) {
+        return res.status(401).send({
+          message: 'Новий пароль зараз використовуться!',
+        });
+      }
+      const passwordIsValid = bcrypt.compareSync(
+        req.body.oldPassword,
+        user.password
+      );
+
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          message: 'Пароль не вірний',
+        });
+      }
+      const password = bcrypt.hashSync(req.body.password, 8);
+      User.update({ password: password }, {
+        where: {
+          login: req.body.login
+        }
+      }).then(() => {
+        return res.send({ message: 'Пароль успішно змінено!' });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
 exports.allAccess = (req, res) => {

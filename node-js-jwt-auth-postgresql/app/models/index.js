@@ -176,6 +176,40 @@ execute procedure journalize_poa_update();
 
 
 
+		--Journalizing POA's unactive
+create or replace function journalize_poa_unactive()
+returns trigger
+language plpgsql
+as $$
+declare
+	next_id integer;
+	action json;
+  poa_des constant text := 'Довіреність деактивовано';
+begin
+		--Since ID isn't updating automatically, manually get new one
+	select max(journal_id)+1 into next_id from journalisms;
+	if(next_id is null) then
+		next_id=1;
+	end if;
+	
+	action:=json_build_object('action', poa_des);
+	
+		--Insert entry in journalisms table
+	insert into journalisms (journal_id, action_data, action_description, "createdAt", "updatedAt", user_id, poa_id)
+	values(next_id, current_timestamp, action, current_timestamp, current_timestamp, new.registrar_id, new.poa_id);
+	return new;
+end;
+$$;
+
+create trigger journalize_poa_unactivetrigger
+after update on poas
+for each row
+when (new.is_active=false)
+execute procedure journalize_poa_unactive();
+
+
+
+
 
 		--Journalizing POA's duplicate creation (after insert)
 create or replace function journalize_poa_insert_duplicate()
@@ -195,7 +229,7 @@ begin
 	
 	action:=json_build_object('action', poa_des, 'principal_name', new.principal_name, 'principal_code', new.principal_code,
 		'confident_name', new.confident_name, 'registration_date', to_char(new.registration_date, 'MM-DD-YYYY'),
-		'blank_series', new.blank_series, 'blank_number', new.blank_number, 'certification_date',
+		'blank_series', new.blank_series, 'blank_number', new.blank_number, 'is_active', new.is_active, 'certification_date',
 		to_char(new.certification_date, 'MM-DD-YYYY'), 'expiry_date',	to_char(new.expiry_date, 'MM-DD-YYYY'));
 	
 		--Insert entry in journalisms table

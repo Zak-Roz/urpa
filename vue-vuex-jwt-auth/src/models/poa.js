@@ -1,5 +1,6 @@
 export default class Poa {
-  constructor(property, register_number, registration_date, principal_name, is_duplicate, expiry_date, certification_date, blank_number, blank_series, confident_code, confident_name, principal_code) { // , passportSeries, passportNumber, passportIssueDate, passportAuthority, rntrc
+  constructor(is_active, property, register_number, registration_date, principal_name, is_duplicate, expiry_date, certification_date, blank_number, blank_series, confident_code, confident_name, principal_code) { // , passportSeries, passportNumber, passportIssueDate, passportAuthority, rntrc
+    this.is_active = is_active;
     this.is_duplicate = is_duplicate;
     this.expiry_date = expiry_date;
     this.register_number = register_number;  // deprecated

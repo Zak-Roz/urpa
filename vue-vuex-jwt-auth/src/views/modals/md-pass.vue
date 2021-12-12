@@ -7,6 +7,7 @@
           <slot name="header">
             Зміна пароля
           </slot>
+          <button class="close" @click="$emit('close')">&times;</button>
         </div>
 
         <div class="modal-body">
@@ -21,6 +22,7 @@
                   type="password"
                   class="form-control"
                   name="organization_name"
+                  placeholder="Введіть старий пароль"
                 />
                 <div
                   v-if="submitted && errors.has('organization_name')"
@@ -31,12 +33,12 @@
               <div class="form-group">
                 <label for="password">Пароль</label>
                 <input
-                  v-model="user.password"
+                  v-model="password"
                   v-validate="'required'"
                   type="password"
                   class="form-control"
                   name="password"
-                  placeholder="Введіть пароль"
+                  placeholder="Введіть новий пароль"
                   ref="password"
                 />
                 <div
@@ -51,7 +53,7 @@
                   type="password"
                   class="form-control"
                   name="password_confirmation"
-                  placeholder="Ще раз введіть пароль"
+                  placeholder="Ще раз введіть новий пароль"
                   data-vv-as="password"
                 />
                 <div
@@ -61,7 +63,7 @@
               </div>
               <!-- btn Sign Up -->
               <div class="form-group">
-                <button class="btn btn-primary btn-block">Створити</button>
+                <button class="btn btn-primary btn-block">Змінити пароль</button>
               </div>
             </div>
           </form>
@@ -71,12 +73,6 @@
             class="alert"
             :class="successful ? 'alert-success' : 'alert-danger'"
           >{{message}}</div>
-          <div v-if="message && successful">
-            <button class="btn btn-primary btn-block" @click="message='';successful=false">Нове місце роботи</button>
-          </div>
-          <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
-            Закрити
-          </button>
         </div>
       </div>
     </div>
@@ -85,18 +81,17 @@
 
 
 <script>
-import User from '../../models/user';
 
 export default {
-  name: 'Register',
+  name: 'updatePass',
   data() {
     return {
-      user: new User('', ''),
       submitted: false,
       successful: false,
       message: '',
       showModal: false,
       oldPassword: '',
+      password: ''
     };
   },
   methods: {
@@ -105,7 +100,13 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          this.$store.dispatch('user/update', this.user).then(
+          const user = { 
+            login: this.$store.state.auth.user.login,
+            oldPassword: this.oldPassword,
+            password: this.password,
+          }
+          alert(JSON.stringify(user));
+          this.$store.dispatch('user/updatePass', user).then(
             data => {
               this.message = data.message;
               this.successful = true;
@@ -136,6 +137,11 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
   transition: opacity 0.3s ease;
+}
+
+.close {
+  line-height: 32px;
+  color: #5c4084;
 }
 
 .modal-wrapper {

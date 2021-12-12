@@ -57,9 +57,14 @@ export default {
     }
   },
   created() {
-      
     this.$store.dispatch('user/getById', this.$route.params.id)
-      .then((data) => {this.user = data.data})
+      .then((data) => {
+        if(data.data === null) {
+          throw '';
+        }
+        this.user = data.data;
+      })
+      .catch(() => {alert('Користувача не знайдено.'); setTimeout(this.$router.push('/find-user'), 1500);})
   },
 }
 </script>

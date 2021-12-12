@@ -1,21 +1,18 @@
 <template>
   <div class="col-md-12">
     <div class="">
-      <form style="margin: 50px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful && access">
+      <form v-if="!successful && access" style="margin: 50px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="">
+        <div >
           <!-- code&name -->
           <table width="100%" cellpadding="5">
             <tbody>
             <!-- Довіритель -->
             <tr>
               <td width="50%">
-                <select @change="checkPrincipal($event)" class="form-control form-control-sm" for="principal_name" style="margin: 0 0 7px 0">
-                  <option value="FullP">ПІБ (для фіз. осіб) довірителя</option>
-                  <option value="UrP">Найменування (для юр. осіб) довірителя</option>
-                </select>
+                <lable for="principal_code">{{this.isPrincipal[0]}}</lable>
               </td>
               <td>
-                <lable for="principal_code">{{this.codePrincipal}}</lable>
+                <lable for="principal_code">{{this.isPrincipal[1]}}</lable>
               </td>
             </tr>
             <tr>
@@ -47,13 +44,10 @@
             <!-- Довірююча особа -->
             <tr>
               <td>
-                <select @change="checkConfident($event)" class="form-control form-control-sm" for="confident_name" style="margin: 0 0 7px 0">
-                  <option value="FullC">ПІБ (для фіз. осіб) довіреної особи</option>
-                  <option value="UrC">Найменування (для юр. осіб) довіреної особи</option>
-                </select>
+                <lable for="principal_code">{{this.isConfident[0]}}</lable>
               </td>
               <td>
-                <label for="confident_code">{{this.codeConfident}}</label>
+                <label for="confident_code">{{this.isConfident[1]}}</label>
               </td>
             </tr>
             <tr>
@@ -123,7 +117,7 @@
               </td>
             </tr>
             <!-- numbers and series -->
-            <tr>
+            <!-- <tr>
               <td width="50%">
                 <lable for="blank_series">Серія</lable>
               </td>
@@ -156,7 +150,7 @@
                   {{errors.first('blank_number')}}
                 </div>
               </td>
-            </tr>
+            </tr> -->
             </tbody>
           </table>
           <!-- property -->
@@ -180,19 +174,20 @@
             </tbody>
           </table>
           <!-- submit -->
-          <table width="100%" cellpadding="5">
+          <table v-if="this.poa.is_active" width="100%" cellpadding="5">
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
-                  <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Відмінити</button>
-                  <button class="btn btn-success" type="submit">Створити форму</button>
+                  <button class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
+                  <button class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
+                  <button class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </form>
-      <div style="padding: 0 35%; text-align: center;" >
+      <div style="padding: 10% 35%; text-align: center;" >
       <div
         v-if="message"
         
@@ -214,16 +209,14 @@
 </template>
 
 <script>
-import Poa from '../../models/poa';
-
 export default {
   name: 'NewPoa',
   data() {
     return {
       access: false,
-      poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
-      codePrincipal: 'РНОКПП довірителя',
-      codeConfident: 'РНОКПП довіреної особи',
+      poa: null,
+      isPrincipal: ['Найменування довірителя', 'ЄДРПОУ довірителя'],
+      isConfident: ['ПІБ довіреної особи', 'РНОКПП довіреної особи'],
       submitted: false,
       successful: false,
       message: '',
@@ -233,27 +226,55 @@ export default {
       dateNow: '',
     };
   },
-  async mounted() {
+  created() {
+    this.$store.dispatch('poa/getById', this.$route.params.id)
+      .then((data) => this.poa = data.data)
+      .then(() => {
+        if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
+        if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
+      })
+      .catch(() => {alert('Довіреності не знайдено.'); setTimeout(this.$router.push('/find-poa'), 1500);})
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-    this.poa.confident_code = 1112223334;
-    this.poa.confident_name = 'Ааа Ббб Ввв';
-    this.poa.principal_code = 1112223324;
-    this.poa.principal_name = 'Ввв Ббб Ааа';
-    this.poa.expiry_date = '2025-10-21';
-    this.poa.certification_date = '2015-10-21';
-    this.poa.blank_number = '111222';
-    this.poa.blank_series = 'ААА';
-    this.poa.property = 'Тут має бути текс під інпутом';
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
   },
+  // async mounted() {
+  //   this.$store.dispatch('poa/getById', this.$route.params.id)
+  //     .then((data) => this.poa = data.data)
+  //     .then(() => {
+  //       if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
+  //       if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
+  //     })
+  //     .catch((err) => alert(err.toString()))
+  //   this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
+  //   const local = JSON.parse(localStorage.getItem('user'));
+  //   this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
+  // },
   methods: {
+    unActive() {
+      this.message = '';
+      this.poa.is_active = false;
+      // alert(JSON.stringify(this.poa))
+      this.$store.dispatch('poa/update', this.poa).then(
+        data => {
+          this.message = data.message;
+          this.successful = true;
+        },
+        error => {
+          this.message =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString();
+          this.successful = false;
+        }
+      );
+    },
     handleRegister() {
       this.message = '';
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          this.$store.dispatch('poa/new', this.poa).then(
+          this.$store.dispatch('poa/update', this.poa).then(
             data => {
               this.message = data.message;
               this.successful = true;
@@ -271,33 +292,17 @@ export default {
     },
     isLegalOrIndividualP() {
       // alert(this.codePrincipal)
-      if (this.codePrincipal === 'Код ЄДРПОУ довірителя') {
+      if (this.isPrincipal[1] === 'ЄДРПОУ довірителя') {
         return 8;
       }
       return 10;
     },
     isLegalOrIndividualC() {
-      if (this.codeConfident === 'Код ЄДРПОУ довіреної особи') {
+      if (this.isConfident[1] === 'ЄДРПОУ довіреної особи') {
         return 8;
       }
       return 10;
-    },
-    checkPrincipal(event) {
-      if (event.target.value === 'UrP') {
-        this.codePrincipal = 'Код ЄДРПОУ довірителя';
-      }
-      if (event.target.value === 'FullP') {
-        this.codePrincipal = 'РНОКПП довірителя';
-      }
-    },
-    checkConfident(event) {
-      if (event.target.value === 'UrC') {
-        this.codeConfident = 'Код ЄДРПОУ довіреної особи';
-      }
-      if (event.target.value === 'FullC') {
-        this.codeConfident = 'РНОКПП довіреної особи';
-      }
-    },
+    }
   }
 };
 </script>

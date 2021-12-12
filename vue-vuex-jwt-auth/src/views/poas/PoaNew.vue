@@ -216,7 +216,7 @@
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
-                  <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Відмінити</button>
+                  <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Очистити</button>
                   <button class="btn btn-success" type="submit">Створити форму</button>
                 </td>
               </tr>

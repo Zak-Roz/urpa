@@ -64,22 +64,22 @@ exports.signup = (req, res) => {
           }
         }).then(rights => {
           user.setRights(rights).then(() => {
-            // sendEmail(password, user);
-            res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
+            // if (!req.body.password) sendEmail(password, user);
+            return res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
           });
         });
       } else {
       // user right = 1
         user.setRights([1]).then(() => {
-          // sendEmail(password, user);
-          res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
+          // if (!req.body.password) sendEmail(password, user);
+          return res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
         });
       }
     }).catch(err => {
-      res.status(500).send({ message: err.message });
+      return res.status(500).send({ message: err.message });
     });
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 };
 

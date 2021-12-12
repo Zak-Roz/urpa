@@ -38,6 +38,56 @@
               class="alert-danger"
             >{{errors.first('email')}}</div>
           </div>
+          <!-- Day of birthday -->
+          <div class="form-group">
+            <label for="day of birthday">Дата народження</label>
+            <input
+              v-model="user.dob"
+              v-validate="'required'"
+              type="date"
+              class="form-control"
+              name="day of birthday"
+            />
+            <div
+              v-if="submitted && errors.has('day of birthday')"
+              class="alert-danger"
+            >{{errors.first('day of birthday')}}</div>
+          </div>
+          <!-- organization_name -->
+          <div class="form-group">
+            <label for="organization_name">Назва установи</label>
+            <!-- <input
+              v-model="user.organization_name"
+              v-validate="'required'"
+              type="text"
+              class="form-control"
+              name="organization_name"
+            />
+            <v-select 
+              :options="rights" 
+              label="right"
+            ></v-select> -->
+            <v-select 
+              v-model="user.organization_name"
+              v-validate="'required'"
+              name="organization_name"
+              :options="works" 
+              label="organization_name"
+            ></v-select>
+            <div
+              v-if="submitted && errors.has('organization_name')"
+              class="alert-danger"
+            >{{errors.first('organization_name')}}</div>
+            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Добавити нову установу"/>
+            <Modal v-if="showModal" @close="showModal = false;uploadWorkSelect()">
+              <h3 slot="header">Добавити нову установу</h3>
+            </Modal>
+            <!-- <button class="button">
+              <router-link to="/modal" class="but-link">
+                <font-awesome-icon icon="user-plus" />Додати місце роботи
+              </router-link>
+            </button> -->
+          </div>
           <!-- passport series -->
           <div class="form-group">
             <label for="passport series">Серія паспорту (за наявності)</label>
@@ -141,56 +191,6 @@
               class="alert-danger"
             >{{errors.first('rights')}}</div>
           </div>
-          <!-- organization_name -->
-          <div class="form-group">
-            <label for="organization_name">Назва установи</label>
-            <!-- <input
-              v-model="user.organization_name"
-              v-validate="'required'"
-              type="text"
-              class="form-control"
-              name="organization_name"
-            />
-            <v-select 
-              :options="rights" 
-              label="right"
-            ></v-select> -->
-            <v-select 
-              v-model="user.organization_name"
-              v-validate="'required'"
-              name="organization_name"
-              :options="works" 
-              label="organization_name"
-            ></v-select>
-            <div
-              v-if="submitted && errors.has('organization_name')"
-              class="alert-danger"
-            >{{errors.first('organization_name')}}</div>
-            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Створити нове місце роботи"/>
-          <Modal v-if="showModal" @close="showModal = false;uploadWorkSelect()">
-            <h3 slot="header">Створити нове місце роботи</h3>
-          </Modal>
-          <!-- <button class="button">
-            <router-link to="/modal" class="but-link">
-              <font-awesome-icon icon="user-plus" />Додати місце роботи
-            </router-link>
-          </button> -->
-          </div>
-          <!-- Day of birthday -->
-          <div class="form-group">
-            <label for="day of birthday">Дата народження</label>
-            <input
-              v-model="user.dob"
-              v-validate="'required'"
-              type="date"
-              class="form-control"
-              name="day of birthday"
-            />
-            <div
-              v-if="submitted && errors.has('day of birthday')"
-              class="alert-danger"
-            >{{errors.first('day of birthday')}}</div>
-          </div>
           <!-- Password -->
           <!-- <div class="form-group">
             <label for="password">Пароль</label>
@@ -226,7 +226,7 @@
 
           <!-- btn Sign Up -->
           <div class="form-group">
-            <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Зареєструватися</button>
+            <button type="submit" @submit.prevent="next" class="btn btn-primary btn-block" >Зареєструвати</button>
           </div>
       </form>
       </div>
@@ -268,7 +268,6 @@ export default {
       successful: false,
       message: '',
       showModal: false,
-      fullname: 'asdasd',
       currentMonth: (new Date().getMonth() + 1) < 10 ? `0${(new Date().getMonth() + 1)}` : `${(new Date().getMonth() + 1)}`,
       currentDay: new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`,
       currentYear: new Date().getFullYear(),

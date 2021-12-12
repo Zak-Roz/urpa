@@ -4,6 +4,10 @@
       <h3>
         <strong>{{currentUser.fullname}}</strong> Обліковий запис
       </h3>
+      <input type="button" style="margin:15px 0 0 0;width: 15%" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Змінити пароль"/>
+      <mdPass v-if="showModal" @close="showModal = false;">
+        <h3 slot="header">Зміна пароля</h3>
+      </mdPass>
     </header>
     <p>
       <strong>Токен:</strong>
@@ -29,7 +33,17 @@
 </template>
 
 <script>
+import mdPass from './../modals/md-pass.vue';
+
 export default {
+  components: {
+    mdPass,
+  },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
   name: 'Profile',
   computed: {
     currentUser() {

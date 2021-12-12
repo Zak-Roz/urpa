@@ -20,6 +20,32 @@ class UserService {
   getById(id) {
     return axios.get(API_URL + `getById?id=${id}`);
   }
+  
+  updatePass(user) {
+    return axios.put(API_URL + 'updatePass', {
+      login: user.login,
+      password: user.password,
+      oldPassword: user.oldPassword,
+    });
+  }
+
+  update(user) {
+    return axios.put(API_URL + 'update', {
+      id: user.id,
+      fullname: user.fullname,
+      login: user.login,
+      password: user.password,
+      dob: user.dob,
+      passportSeries: user.passportSeries,
+      passportNumber: user.passportNumber,
+      passportIssueDate: user.passportIssueDate,
+      passportAuthority: user.passportAuthority,
+      rntrc: user.rntrc,
+      organization_name: user.organization_name.organization_name,
+      rights: user.rights,
+      status_id: user.status_id,
+    });
+  }
 
   getUserBoard() {
     return axios.get(API_URL + 'user', { headers: authHeader() });

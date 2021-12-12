@@ -100,7 +100,7 @@
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
-                  <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Відмінити</button>
+                  <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Очистити</button>
                   <button class="btn btn-success" type="submit">Знайти довіреність</button>
                 </td>
               </tr>
@@ -115,9 +115,9 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div></div>
-      <div style="padding: 0 42%" v-if="message && successful">
+      <!-- <div style="padding: 0 42%" v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
-      </div>
+      </div> -->
     </div>
     <div v-if="!access"
     class="alert"

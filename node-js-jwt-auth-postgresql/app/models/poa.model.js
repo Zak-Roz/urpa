@@ -21,6 +21,8 @@ module.exports = (sequelize, Sequelize) => {
     expiry_date: { type: Sequelize.DATEONLY/*, allowNull: false*/ },
 
     is_duplicate: { type: Sequelize.BOOLEAN/*, allowNull: false*/ },
+
+    is_active: { type: Sequelize.BOOLEAN/*, allowNull: false*/ },
     
     property: { type: Sequelize.STRING(5000)/*, allowNull: false*/ },
   });

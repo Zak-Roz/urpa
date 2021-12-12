@@ -7,6 +7,7 @@
           <slot name="header">
             Додати нове місце роботи
           </slot>
+          <button class="close" @click="$emit('close')">&times;</button>
         </div>
 
         <div class="modal-body">
@@ -60,9 +61,9 @@
           <div v-if="message && successful">
             <button class="btn btn-primary btn-block" @click="message='';successful=false">Нове місце роботи</button>
           </div>
-          <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
+          <!-- <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
             Закрити
-          </button>
+          </button> -->
     <!-- </div> -->
           <!-- </slot> -->
         </div>
@@ -151,7 +152,7 @@ export default {
 }
 
 .modal-container {
-  width: 445px;
+  width: 417px;
   margin: 0px auto;
   padding: 0px 20px;
   background-color: #fff;
@@ -195,5 +196,10 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.close {
+  line-height: 32px;
+  color: #5c4084;
 }
 </style>

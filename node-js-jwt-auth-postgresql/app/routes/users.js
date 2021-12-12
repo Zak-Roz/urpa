@@ -15,6 +15,7 @@ userRouter
   .get('/allUsers', controller.allUsers)
   .get('/findUser', controller.findUser)
   .get('/getById', controller.getById)
+  .put('/updatePass', controller.updatePass)
   .get('/user',[authJwt.verifyToken],controller.userBoard)
   .get('/mod',[authJwt.verifyToken, authJwt.isModerator],controller.moderatorBoard)
   .get('/admin',[authJwt.verifyToken, authJwt.isAdmin],controller.adminBoard);

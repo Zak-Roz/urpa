@@ -5,9 +5,15 @@ const API_URL = 'http://localhost:8080/api/workplace/';//api/workplace/new
 class WorkService {
   getByName(workplace) {
     return axios
-      .get(API_URL + 'getByName', {
-        organization_name: workplace.organization_name,
-      })
+      .get(API_URL + `getByName?organization_name=${workplace.organization_name}`)
+      .then(response => {
+        return response;
+      });
+  }
+  
+  getById(workplace) {
+    return axios
+      .get(`${API_URL}getById?id=${workplace}`)
       .then(response => {
         return response;
       });

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div v-if="poa">
+  <div v-if="poa && access">
     <h1 style="text-align: center; margin: 30px 0 30px 0"><b>Довіреність №{{poa.id}}</b></h1>
     <table class="table table-striped table-hover">
 
@@ -54,6 +54,7 @@
 export default {
   data() {
     return {
+      access: false,
       poa: null,
       isPrincipal: ['Найменування довірителя', 'ЄДРПОУ довірителя'],
       isConfident: ['ПІБ довіреної особи', 'РНОКПП довіреної особи'],
@@ -62,10 +63,13 @@ export default {
   created() {
     this.$store.dispatch('poa/getById', this.$route.params.id)
       .then((data) => this.poa = data.data)
-        .then(() => {
-          if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
-          if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
-        })
+      .then(() => {
+        if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
+        if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
+        const local = JSON.parse(localStorage.getItem('user'));
+        this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR' || el === 'RIGHT_ADMIN' || el === 'RIGHT_USER');
+      })
+      .catch(() => {alert('Довіреності не знайдено.'); setTimeout(this.$router.push('/find-poa'), 1500);})
   },
 }
 </script>
