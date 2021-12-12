@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="">
       <form style="margin: 50px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
+        <div v-if="!successful && access">
           <!-- code&name -->
           <table width="100%" cellpadding="5">
             <tbody>
@@ -235,11 +235,18 @@
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
       </div>
     </div>
+    <div v-if="!access"
+    class="alert"
+    style="text-align: center;"
+    :class="'alert-danger'"
+    >
+      У вас немає доступа!
+    </div>
   </div>
 </template>
 
 <script>
-import Poa from '../models/poa';
+import Poa from '../../models/poa';
 // import Work from '../models/workplace';
 // import Modal from '@/views/md';
 
@@ -250,6 +257,7 @@ export default {
   name: 'NewPoa',
   data() {
     return {
+      access: false,
       poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
       codePrincipal: 'РНОКПП довірителя',
       codeConfident: 'РНОКПП довіреної особи',
@@ -287,6 +295,8 @@ export default {
     this.poa.blank_number = '111222';
     this.poa.blank_series = 'ААА';
     this.poa.property = 'Тут має бути текс під інпутом';
+    const local = JSON.parse(localStorage.getItem('user'));
+    this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
     // this.uploadWorkSelect()
     // this.works = (await this.$store.dispatch('work/getAll')).data;
 // eslint-disable-next-line no-debugger

@@ -29,10 +29,10 @@
               class="alert alert-danger"
               role="alert"
             >Це поле є обов'язковим!</div>
-        <label for="body" class="mt-3 mb-2">Детально опишіть, у чому полягає Ваша проблема (не менше 30 символів)</label>
+        <label for="body" class="mt-3 mb-2">Детально опишіть, у чому полягає Ваша проблема (не менше 10 символів)</label>
           <textarea
             v-model="email_body"
-            v-validate="'required'"
+            v-validate="'required|10'"
             type="text"
             class="form-control"
             name="body" />

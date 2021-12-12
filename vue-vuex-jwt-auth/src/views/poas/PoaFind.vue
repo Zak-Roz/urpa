@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import Poa from '../models/poa';
+import Poa from '../../models/poa';
 
 export default {
   name: 'FindPoa',
@@ -135,7 +135,7 @@ export default {
   },
   mounted() {
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-    this.poa.registration_date = '2015-10-21';
+    this.poa.registration_date = '2021-12-05';
     this.poa.blank_number = '111222';
     this.poa.blank_series = 'ААА';
     this.poa.register_number = '1';

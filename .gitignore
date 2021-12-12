@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+./node-js-jwt-auth-postgresql/data/*
+# C:\Users\nazar\Desktop\urpa\node-js-jwt-auth-postgresql\data

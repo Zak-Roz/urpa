@@ -21,5 +21,10 @@ export const user = {
     getById(_, id) {
       return UserService.getById(id);
     },
+    
+    // TODO update
+    update(_, id) {
+      return UserService.getById(id);
+    },
   },
 };

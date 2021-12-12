@@ -1,18 +1,6 @@
-<template name="Modal">
-  <div class="modal-mask">
-    <div class="modal-wrapper">
-      <div class="modal-container">
-
-        <div class="modal-header">
-          <slot name="header">
-            Додати нове місце роботи
-          </slot>
-        </div>
-
-        <div class="modal-body">
-          <!-- <slot name="body"> -->
-            <!-- <div class="card card-container"> -->
-      
+<template>
+  <div class="col-md-12" style="padding: 20% 35%">
+    <div class="card card-container">
           <form name="form" @submit.prevent="handleRegister">
             <div v-if="!successful">
               <!-- organization_name -->
@@ -52,37 +40,20 @@
             </div>
           </form>
 
-          <div
-            v-if="message"
-            class="alert"
-            :class="successful ? 'alert-success' : 'alert-danger'"
-          >{{message}}</div>
-          <div v-if="message && successful">
-            <button class="btn btn-primary btn-block" @click="message='';successful=false">Нове місце роботи</button>
-          </div>
-          <button style="margin:15px 0 0 0" class="btn btn-primary btn-block" @click="$emit('close')">
-            Закрити
-          </button>
-    <!-- </div> -->
-          <!-- </slot> -->
-        </div>
-
-        <!-- <div class="modal-footer">
-          <slot name="footer">
-            default footer
-            <button class="modal-default-button" @click="$emit('close')">
-              OK
-            </button>
-          </slot>
-        </div> -->
+      <div
+        v-if="message"
+        class="alert"
+        :class="successful ? 'alert-success' : 'alert-danger'"
+      >{{message}}</div>
+      <div v-if="message && successful">
+        <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова установа</button>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import Workplace from '../models/workplace';
+import Workplace from '../../models/workplace';
 
 
 export default {
@@ -151,7 +122,7 @@ export default {
 }
 
 .modal-container {
-  width: 445px;
+  width: 350px;
   margin: 0px auto;
   padding: 0px 20px;
   background-color: #fff;

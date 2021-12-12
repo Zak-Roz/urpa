@@ -250,9 +250,9 @@
 </template>
 
 <script>
-import User from '../models/user';
-import Work from '../models/workplace';
-import Modal from '@/views/md';
+import User from '../../models/user';
+import Work from '../../models/workplace';
+import Modal from './../modals/md.vue';
 
 export default {
   components: {

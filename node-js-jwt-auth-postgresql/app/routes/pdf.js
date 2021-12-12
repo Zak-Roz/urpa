@@ -1,4 +1,4 @@
-const pdfController = require('../controllers/pdf');
+const pdfController = require('../controllers/pdf.controller');
 // const myError = require('./../myError');
 const pdfRouter = require('express').Router();
 

@@ -130,11 +130,10 @@
 </template>
 
 <script>
-import User from '../models/user';
-// import UserService from '../services/user.service';
+import User from '../../models/user';
 
 export default {
-  name: 'FindUser',
+  name: 'UserFind',
   data() {
     return {
       user: new User('', '', '', '', '', '', '', '', '', '', ''),

@@ -33,7 +33,7 @@ class AuthService {
     return axios.post(API_URL + 'signup', {
       fullname: user.fullname,
       login: user.login,
-      // password: user.password,
+      password: user.password,
       dob: user.dob,
       passportSeries: user.passportSeries,
       passportNumber: user.passportNumber,
