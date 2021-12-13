@@ -1,4 +1,6 @@
 const { authJwt } = require('../middleware');
+const { verifyUser } = require('../middleware');
+
 const controller = require('../controllers/user.controller');
 // const myError = require('./../myError');
 const userRouter = require('express').Router();
@@ -15,7 +17,10 @@ userRouter
   .get('/allUsers', controller.allUsers)
   .get('/findUser', controller.findUser)
   .get('/getById', controller.getById)
-  .put('/updatePass', controller.updatePass)
+  .put('/updatePass',controller.updatePass)
+  .put('/update',
+    [verifyUser.checkDuplicateUser],
+    controller.update)
   .get('/user',[authJwt.verifyToken],controller.userBoard)
   .get('/mod',[authJwt.verifyToken, authJwt.isModerator],controller.moderatorBoard)
   .get('/admin',[authJwt.verifyToken, authJwt.isAdmin],controller.adminBoard);

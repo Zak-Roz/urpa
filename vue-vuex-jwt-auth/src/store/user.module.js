@@ -19,11 +19,30 @@ export const user = {
       return UserService.allUsers();
     },
     getById(_, id) {
-      return UserService.getById(id);
+      // return data;
+      return UserService.getById(id).then(
+        getData => {
+          return Promise.resolve(getData);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+      // return UserService.getById(id);
     },
 
     updatePass(_, user) {
       return UserService.updatePass(user).then(
+        response => {
+          return Promise.resolve(response.data);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
+    update(_, user) {
+      return UserService.update(user).then(
         response => {
           return Promise.resolve(response.data);
         },

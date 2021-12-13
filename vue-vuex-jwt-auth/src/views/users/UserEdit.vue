@@ -189,15 +189,15 @@
               </td>
               <td>
                 <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
-                  <input class="checkmark" style="left: 32px" type="checkbox" id="user" v-model="isUsr" value="user">
+                  <input class="checkmark" @change="onChange($event)" style="left: 32px" type="checkbox" id="user" v-model="isUsr" value="user">
                   <label style="margin: 25px 0 0 0" for="user">Користувач</label>
                 </div>
                 <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
-                  <input class="checkmark" style="left: 28px" type="checkbox" id="moderator" v-model="isMod" value="moderator">
+                  <input class="checkmark"  @change="onChange($event)" style="left: 28px" type="checkbox" id="moderator" v-model="isMod" value="moderator">
                   <label for="moderator" style="margin: 25px 0px 0 0" >Реєстратор</label>
                 </div>
                 <div class="form-check form-check-inline" style="margin: 0 0px 0 10px" >
-                  <input class="checkmark" style="left: 7px" type="checkbox" id="admin" v-model="isAdm" value="admin">
+                  <input class="checkmark"  @change="onChange($event)" style="left: 7px" type="checkbox" id="admin" v-model="isAdm" value="admin">
                   <label for="admin" style="margin: 25px 0 0 0" >Адмін</label>
                 </div>
               </td>
@@ -281,10 +281,11 @@ export default {
   async created() {
     try {
       const data = await this.$store.dispatch('user/getById', this.$route.params.id)
-      if(data.data === null) {
-        throw 'null';
+      if(data.data.user === null || data.data === null) {
+        throw '';
       }
       this.user = data.data.user;
+      this.user.rights = data.data.authorities.sort();
       await this.uploadWorkSelect();
       await this.currentWorkSpace();
       this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
@@ -297,19 +298,25 @@ export default {
         if(el === 'user') this.isUsr = 'user';
       });
     } catch (err) {
-      if (err.message === 'null') {
-        alert('Довіреності не знайдено.'); 
-        setTimeout(this.$router.push('/find-user'), 1500);
-      } else {
-        alert(err.toString()); 
-      }
-
+      alert('Користувача не знайдено.'); 
+      setTimeout(this.$router.push('/find-user'), 1500);
     }
   },
   methods: {
+    onChange(event) {
+      const index = this.user.rights.indexOf(event.target.id);
+      if (index === -1) {
+        this.user.rights.push(event.target.id);
+      }
+      else {
+        this.user.rights.splice(index, 1)
+      }
+      this.user.rights = this.user.rights.sort();
+    },
     unActive() {
       this.message = '';
       this.user.status_id = 3;
+      alert('unActive');
       alert(JSON.stringify(this.user))
       this.$store.dispatch('user/update', this.user).then(
         data => {
@@ -318,7 +325,7 @@ export default {
         },
         error => {
           this.message =
-            (error.response && error.response.data && error.response.data.message) ||
+            (error.response && error.response.data && error.response.data.message || error.response.data.reject) ||
             error.message ||
             error.toString();
           this.successful = false;
@@ -330,8 +337,9 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
+          alert('handleRegister');
           // alert(JSON.stringify(this.user));
-          this.$store.dispatch('auth/register', this.user).then(
+          this.$store.dispatch('user/update', this.user).then(
             data => {
               this.message = data.message;
               this.successful = true;
@@ -354,7 +362,7 @@ export default {
         this.works = (await this.$store.dispatch('work/getAll')).data;
     },
     async currentWorkSpace() {
-      // alert(this.user.workplace_id)  
+      alert('currentWorkSpace')
       this.user.organization_name = (await this.$store.dispatch('work/getById', this.user.workplace_id)).data.organization_name;
       // alert(JSON.stringify(this.user.organization_name))
     },

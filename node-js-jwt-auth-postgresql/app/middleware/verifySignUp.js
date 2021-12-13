@@ -94,7 +94,7 @@ const checkWorkplaceExisted = (req, res, next) => {
       .then(work => {
         if (!work) {
           return res.status(400).send({
-            message: 'Місце роботи не знайдено',
+            message: 'Місце роботи не знайдено. Виберіть іншу або створіть нову',
           });
         }
         req.body.workplace_id = work.id;

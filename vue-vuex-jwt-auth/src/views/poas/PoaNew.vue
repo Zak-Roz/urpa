@@ -234,6 +234,9 @@
       <div style="padding: 0 42%" v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
       </div>
+      <!-- <div style="padding: 0 42%" v-if="message && successful">
+        <button class="btn btn-primary btn-block" @click="message='';successful=false">Перейти на довіреність</button>
+      </div> -->
     </div>
     <div v-if="!access"
     class="alert"

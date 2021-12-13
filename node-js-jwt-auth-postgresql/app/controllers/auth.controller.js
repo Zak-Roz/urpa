@@ -65,14 +65,14 @@ exports.signup = (req, res) => {
         }).then(rights => {
           user.setRights(rights).then(() => {
             // if (!req.body.password) sendEmail(password, user);
-            return res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
+            return res.send({ message: 'Користувача успішно зареєстровано! Логін і пароль відправлені на ел. пошту.' });
           });
         });
       } else {
       // user right = 1
         user.setRights([1]).then(() => {
           // if (!req.body.password) sendEmail(password, user);
-          return res.send({ message: 'Користувача успішно зареєстровано! Перевірте свою ел. пошту.' });
+          return res.send({ message: 'Користувача успішно зареєстровано! Логін і пароль відправлені на ел. пошту.' });
         });
       }
     }).catch(err => {
@@ -114,6 +114,14 @@ exports.signin = (req, res) => {
           where: {
             login: req.body.login
           }
+        });
+      }
+      if(user.status_id === 3) {
+        res.status(403).send({
+          id: user.id,
+          fullname: user.fullname,
+          login: user.login,
+          reject: 'Обліковий запис заблоковано!'
         });
       }
       

@@ -37,7 +37,7 @@
         </tr>
         <tr>
           <th scope="row">authorities</th>
-          <td>{{user.authorities}}</td>
+          <td>{{authorities}}</td>
         </tr>
       </tbody>
 </table>
@@ -53,17 +53,33 @@ export default {
   data() {
     return {
       user: null,
-      authorities: [],
+      authorities: '',
     }
   },
   created() {
     this.$store.dispatch('user/getById', this.$route.params.id)
-      .then((data) => {
-        if(data.data === null) {
-          throw '';
-        }
-        this.user = data.data;
-      })
+      .then(
+        data => {
+          // alert(JSON.stringify(data.data))
+          if(data.data.user === null || data.data === null) {
+            throw '';
+          }
+          this.user = data.data.user;
+          this.user.passport_serias	 = this.user.passport_serias || 'Немає.';
+          data.data.authorities.sort();
+          data.data.authorities.forEach((el) => {
+            this.authorities += `${el.toUpperCase()}, `
+          });
+          this.authorities = this.authorities.slice(0, this.authorities.length - 2)
+          // alert(JSON.stringify(this.user))
+        },
+        error => {
+          this.message =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString();
+          this.successful = false;
+        })
       .catch(() => {alert('Користувача не знайдено.'); setTimeout(this.$router.push('/find-user'), 1500);})
   },
 }

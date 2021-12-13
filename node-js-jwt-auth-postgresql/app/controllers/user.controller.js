@@ -1,11 +1,13 @@
 const bcrypt = require('bcryptjs');
 const db = require('../models');
 const User = db.user;
+const Right = db.right;
+const Op = db.Sequelize.Op;
 
 exports.allUsers = async (req, res) => {
   try {
-    const poas = await User.findAll();
-    return res.json(poas);
+    const users = await User.findAll();
+    return res.json(users);
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -17,12 +19,14 @@ exports.getById = async (req, res) => {
     let user = null;
     if (id) {
       user = await User.findByPk(id);
-      const authorities = [];
-      const rights = await  user.getRights();
-      for (let i = 0; i < rights.length; i++) {
-        authorities.push(rights[i].name);
+      if (user) {
+        const authorities = [];
+        const rights = await user.getRights();
+        for (let i = 0; i < rights.length; i++) {
+          authorities.push(rights[i].name);
+        }
+        return res.json({user, authorities});
       }
-      return res.json({user, authorities});
     }
     return res.json(user);
   } catch (err) {
@@ -122,4 +126,53 @@ exports.adminBoard = (req, res) => {
 
 exports.moderatorBoard = (req, res) => {
   res.status(200).send('Дані Реєстратора.');
+};
+
+exports.update = (req, res) => {
+  User.findByPk(req.body.id)
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: 'Користувача не знайдено.' });
+      }
+      if (req.body.status_id === 3) {
+        User.update({ status_id: 3 }, {
+          where: {
+            id: req.body.id
+          }
+        }).then(() => {
+          return res.send({ message: 'Користувача успішно деактивовано!' });
+        });
+      }
+      User.update({ 
+        fullname: user.fullname,
+        login: user.login,
+        // password: user.password,
+        dob: user.dob,
+        passport_serias: user.passport_serias,
+        passport_number: user.passport_number,
+        passport_issue_date: user.passport_issue_date,
+        passport_authority: user.passport_authority,
+        rntrc: user.rntrc,
+        workplace_id: user.workplace_id,
+      }, {
+        where: {
+          id: req.body.id
+        }
+      }).then(() => {
+        Right.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.rights
+            }
+          }
+        }).then(rights => {
+          user.setRights(rights).then(() => {
+            return res.send({ message: 'Користувача успішно оновлено!' });
+          });
+        });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
