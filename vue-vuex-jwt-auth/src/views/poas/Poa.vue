@@ -43,7 +43,9 @@
         </tr>
       </tbody>
 </table>
-    
+       <button type="button" class="btn btn-warning">Дублікат</button>
+       <button type="button" class="btn btn-warning">Редагувати</button>
+       <button type="button" class="btn btn-warning">Витяг</button>
   </div>
 </div>
   
