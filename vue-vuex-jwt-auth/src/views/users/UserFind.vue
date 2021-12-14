@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12">
     <div class="">
-      <form style="margin: 50px 0 0 0; padding: 0 10%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
+      <form style="margin: 50px 0 0 0; padding: 0 10%;" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
         <div v-if="!successful && access">
           <table width="100%" cellpadding="5">
             <tbody>
@@ -25,7 +25,7 @@
                   class="form-control"
                   name="fullname"
                 />
-                <div v-if="submitted && errors.has('fullname')" class="alert-danger">
+                <div style="margin-top: 8px;" v-if="submitted && errors.has('fullname')" class="alert-danger">
                   {{errors.first('fullname')}}
                 </div>
               </td>
@@ -37,7 +37,7 @@
                   class="form-control"
                   name="email"
                 />
-                <div v-if="submitted && errors.has('login')" class="alert-danger">
+                <div style="margin-top: 8px;" v-if="submitted && errors.has('login')" class="alert-danger">
                   {{errors.first('login')}}
                 </div>
               </td>
@@ -45,11 +45,11 @@
                 <input
                   v-model="user.rntrc"
                   v-validate="'length:10'"
-                  type="number"
+                  type="text"
                   class="form-control"
                   name="rntrc"
                 />
-                <div v-if="submitted && errors.has('rntrc')" class="alert-danger">
+                <div style="margin-top: 8px;" v-if="submitted && errors.has('rntrc')" class="alert-danger">
                   {{errors.first('rntrc')}}
                 </div>
               </td>
@@ -76,7 +76,7 @@
                   class="form-control"
                   name="passport series"
                 />
-                <div v-if="submitted && errors.has('passport series')" class="alert-danger">
+                <div style="margin-top: 8px;" v-if="submitted && errors.has('passport series')" class="alert-danger">
                   {{errors.first('passport series')}}
                 </div>
               </td>
@@ -84,11 +84,11 @@
                 <input
                   v-model="user.passportNumber"
                   v-validate="{ required: false, length: isBookNum(), regex: isBookRegex() }"
-                  type="number"
+                  type="text"
                   class="form-control"
                   name="passport number"
                 />
-                <div v-if="submitted && errors.has('passport number')" class="alert-danger">
+                <div style="margin-top: 8px;" v-if="submitted && errors.has('passport number')" class="alert-danger">
                   {{errors.first('passport number')}}
                 </div>
               </td>
@@ -101,7 +101,7 @@
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
                   <button class="btn btn-secondary" style="margin: 0 15px" type="reset">Очистити</button>
-                  <button class="btn btn-success" type="submit">Знайти довіреність</button>
+                  <button class="btn btn-success" type="submit">Знайти користувача</button>
                 </td>
               </tr>
             </tbody>

@@ -3,17 +3,17 @@
     <header class="jumbotron">
       <div v-if="access">
       <h3>{{content}}</h3>
-      <button v-if="!content.match(/No|found/g)" class="button">
+      <button v-if="!content.match(/No|found/g)" class="btn btn-outline-info">
         <router-link to="/register" class="but-link">
           <font-awesome-icon icon="user-plus" />Створити нового користувача системи
         </router-link>
       </button>
-      <button v-if="!content.match(/No|found/g)" style="left: 10px" class="button">
+      <button v-if="!content.match(/No|found/g)" style="margin: 10px;" class="btn btn-outline-info">
         <router-link to="/find-user" class="but-link">
-          <font-awesome-icon icon="user-plus" />Знайти користувача
+          <font-awesome-icon icon="user-plus" />  Знайти користувача
         </router-link>
       </button>
-      <button v-if="!content.match(/No|found/g)" class="button">
+      <button v-if="!content.match(/No|found/g)" class="btn btn-outline-info">
         <router-link to="/find-poa" class="but-link">
           <font-awesome-icon icon="user-plus" />Знайти довіреність
         </router-link>

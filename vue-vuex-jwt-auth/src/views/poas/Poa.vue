@@ -2,16 +2,10 @@
 <div>
   <div v-if="poa && access">
     <h1 style="text-align: center; margin: 30px 0 30px 0"><b>Довіреність №{{poa.id}}</b></h1>
-    <table class="table table-striped table-hover">
 
-      <thead>
-        <tr>
-          <th scope="col">Номер в реєстрі</th>
-          <th scope="col">{{poa.id}}</th>
-          <th scope="col">Термін дії</th>
-          <th scope="col">{{poa.expiry_date}}</th>
-        </tr>
-      </thead>
+    <h4 style="display: flex; justify-content: center; margin: 5px" > Діє до {{poa.expiry_date}}</h4>
+
+    <table class="table table-striped table-hover">
       <tbody>
         <tr>
           <th scope="row">{{isPrincipal[0]}}</th>
@@ -44,7 +38,7 @@
       </tbody>
 </table>
   <div style="display: flex; margin: 10px; justify-content: center">
-       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Дублікат</button>
+       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Зробити Дублікат</button>
        <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Редагувати</button>
        <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Витяг</button>
   </div>

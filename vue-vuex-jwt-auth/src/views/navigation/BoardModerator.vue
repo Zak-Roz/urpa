@@ -3,7 +3,7 @@
     <header class="jumbotron">
     <div v-if="access">
       <h3>{{content}}</h3>
-      <button v-if="!content.match(/No|found/g)" style="left: 10px" class="button">
+      <button  v-if="!content.match(/No|found/g)" style="left: 10px; margin: 10px;" class="button">
         <router-link to="/add-poa" class="but-link">
           <font-awesome-icon icon="user-plus" />Створити довіреність
         </router-link>

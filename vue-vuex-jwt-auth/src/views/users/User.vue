@@ -1,50 +1,59 @@
 <template>
 <div>
   <div style="margin: 30px 0 0 0" v-if="user">
-    <table class="table table-striped table-hover">
+    <div style="display:flex; justify-content:center; margin-bottom: 8px;">
+          <h4>ПІБ: {{user.fullname}}</h4>
+    </div>
+    <table style="display: flex; justify-content:center;" class="table table-striped table-hover">
       <thead>
-        <tr>
-          <th scope="col">id</th>
-          <th scope="col">{{user.id}}</th>
-          <th scope="col">fullname</th>
-          <th scope="col">{{user.fullname}}</th>
-        </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row">login</th>
-          <td>{{user.login}}</td>
-          <th scope="row">rntrc</th>
-          <td >{{user.rntrc}}</td>
+          <th scope="col">Логін</th>
+          <th scope="col">РНОПКК</th>
+
+        </tr>
+          <tr>
+           <td>{{user.login}}</td>
+          <td scope="row">{{user.rntrc}}</td>
+        </tr>
+
+           <tr>
+          <th scope="row">Дата народження</th>
+          <th scope="row">Серія паспорту</th>
+        </tr>
+
+        <tr>
+          <td>{{user.dob}}</td> 
+           <td>{{user.passport_serias}}</td>
+        </tr>
+
+        <tr>
+            <th scope="row">Дата посвідчення паспорту</th>
+            <th scope="row">Орган що видав паспорт</th>
         </tr>
         <tr>
-          <th scope="row">password</th>
-          <td>f</td>
-          <th scope="row">dob</th>
-          <td>{{user.dob}}</td>
-        </tr>
-        <tr>
-          <th scope="row">passport_serias</th>
-          <td>{{user.passport_serias}}</td>
-          <th scope="row">passport_number</th>
-          <td>{{user.passport_number}}</td>
-        </tr>
-        <tr>
-          <th scope="row">passport_issue_date</th>
           <td>{{user.passport_issue_date}}</td>
-          <th scope="row">passport_authority</th>
           <td>{{user.passport_authority}}</td>
         </tr>
+
         <tr>
-          <th scope="row">authorities</th>
-          <td>{{authorities}}</td>
+          <th colspan="2" scope="row">Наявні права</th>
         </tr>
+        <tr>
+          <td colspan="2" >{{authorities}}</td>
+        </tr>
+
       </tbody>
 </table>
+
+<div style="display: flex; margin: 10px; justify-content: center">
+       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Редагувати</button>
+</div>
     
   </div>
 </div>
-  
+
 </template>
 
 <script>
