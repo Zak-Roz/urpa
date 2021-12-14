@@ -43,9 +43,11 @@
         </tr>
       </tbody>
 </table>
-       <button type="button" class="btn btn-warning">Дублікат</button>
-       <button type="button" class="btn btn-warning">Редагувати</button>
-       <button type="button" class="btn btn-warning">Витяг</button>
+  <div style="display: flex; margin: 10px; justify-content: center">
+       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Дублікат</button>
+       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Редагувати</button>
+       <button style="margin: 10px;" type="button" class="btn btn-outline-dark">Витяг</button>
+  </div>
   </div>
 </div>
   
