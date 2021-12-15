@@ -35,6 +35,7 @@
                   type="number"
                   class="form-control"
                   name="register_number"
+                  placeholder="21"
                 />
                 <div v-if="submitted && errors.has('register_number')" class="alert-danger">
                   {{errors.first('register_number')}}
@@ -61,6 +62,7 @@
                   type="text"
                   class="form-control"
                   name="blank_series"
+                  placeholder="АВС"
                 />
                 <div v-if="submitted && errors.has('blank_series')" class="alert-danger">
                   {{errors.first('blank_series')}}
@@ -73,6 +75,7 @@
                   type="number"
                   class="form-control"
                   name="blank_number"
+                  placeholder="123456"
                 />
                 <div v-if="submitted && errors.has('blank_number')" class="alert-danger">
                   {{errors.first('blank_number')}}

@@ -17,6 +17,7 @@
               type="text"
               class="form-control"
               name="fullname"
+              placeholder="Іванов Іван Іванович"
             />
             <div
               v-if="submitted && errors.has('fullname')"
@@ -32,6 +33,7 @@
               type="email"
               class="form-control"
               name="email"
+              placeholder="privatbank@ukr.net"
             />
             <div
               v-if="submitted && errors.has('email')"
@@ -97,6 +99,7 @@
               type="text"
               class="form-control"
               name="passport series"
+              placeholder="АА"
             />
             <!-- ЕС|АР|АА|АВ|АТ|АС|АЮ|АЕ|АК|АМ|АО|АН|ВА|ВВ|ВЕ|ВН|ВС|ВТ|СЕ|СС|ВО|СА|СВ|СЮ|МЕ|СИ|СН|СО|ТТ|СК|СМ|СТ|ЕА|ЕМ|ЕН|КА|КВ|ЕО|ЕР|КЕ|КК|КМ|КН|СР|МЮ|МА|МС|КС|МК|МН|МО|НА|НЕ|НС|НК|КР -->
             <div
@@ -113,6 +116,7 @@
               type="number"
               class="form-control"
               name="passport number"
+              placeholder="123456789"
             />
             <div
               v-if="submitted && errors.has('passport number')"
@@ -143,6 +147,7 @@
               type="text"
               class="form-control"
               name="passport authority"
+              placeholder="Київський центральний МВС України"
             />
             <div
               v-if="submitted && errors.has('passport authority')"
@@ -158,6 +163,7 @@
               type="number"
               class="form-control"
               name="rntrc"
+              placeholder="1234567890"
             />
             <div
               v-if="submitted && errors.has('rntrc')"

@@ -10,6 +10,7 @@
             v-validate="'required|email|max:50'"
             type="email"
             class="form-control"
+            placeholder="privatbank@ukr.net"
             name="email" />
             <div
               v-if="errors.has('email')"
@@ -35,6 +36,7 @@
             v-validate="'required|min:10'"
             type="text"
             class="form-control"
+            placeholder="Вітаю! Не можу увійти в систему, пише, що мене заблоковано."
             name="body" />
             <div
               v-if="errors.has('body')"

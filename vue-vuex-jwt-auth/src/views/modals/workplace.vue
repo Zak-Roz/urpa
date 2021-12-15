@@ -12,6 +12,7 @@
                   type="text"
                   class="form-control"
                   name="organization_name"
+                  placeholder="ТОВ 'ПРИВАТБАНК'"
                 />
                 <div
                   v-if="submitted && errors.has('organization_name')"
@@ -27,6 +28,7 @@
                   type="email"
                   class="form-control"
                   name="email"
+                  placeholder="privatbank@ukr.net"
                 />
                 <div
                   v-if="submitted && errors.has('email')"

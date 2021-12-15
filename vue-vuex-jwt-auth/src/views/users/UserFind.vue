@@ -25,6 +25,7 @@
                   type="text"
                   class="form-control"
                   name="fullname"
+                  placeholder="Іванов Іван Іванович"
                 />
                 <div v-if="submitted && errors.has('fullname')" class="alert-danger">
                   {{errors.first('fullname')}}
@@ -37,6 +38,7 @@
                   type="email"
                   class="form-control"
                   name="email"
+                  placeholder="privatbank@ukr.net"
                 />
                 <div v-if="submitted && errors.has('email')" class="alert-danger">
                   {{errors.first('email')}}
@@ -49,6 +51,7 @@
                   type="number"
                   class="form-control"
                   name="rntrc"
+                  placeholder="1234567890"
                 />
                 <div v-if="submitted && errors.has('rntrc')" class="alert-danger">
                   {{errors.first('rntrc')}}
@@ -76,6 +79,7 @@
                   type="text"
                   class="form-control"
                   name="passport series"
+                  placeholder="АМ"
                 />
                 <div v-if="submitted && errors.has('passport series')" class="alert-danger">
                   {{errors.first('passport series')}}
@@ -88,6 +92,7 @@
                   type="number"
                   class="form-control"
                   name="passport number"
+                  placeholder="123456"
                 />
                 <div v-if="submitted && errors.has('passport number')" class="alert-danger">
                   {{errors.first('passport number')}}

@@ -15,6 +15,7 @@
             type="text"
             class="form-control"
             name="login"
+            placeholder="privatbank@ukr.net"
           />
           <div
             v-if="errors.has('login')"
