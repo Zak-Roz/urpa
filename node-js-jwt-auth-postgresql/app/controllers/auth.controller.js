@@ -121,7 +121,7 @@ exports.signin = (req, res) => {
           id: user.id,
           fullname: user.fullname,
           login: user.login,
-          reject: 'Обліковий запис заблоковано!'
+          message: 'Вас було заблоковано! Зверніться в підтримку!',
         });
       }
       

@@ -3,6 +3,7 @@
     <div class="">
       <form style="margin: 10px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="">
         <div v-if="!successful && access">
+        <h2 style="text-align: center; margin: 15px 0 10px 0"><b>Редагування користувача</b></h2>
           <!--  -->
           <table width="100%" cellpadding="5">
             <tbody>
@@ -173,7 +174,6 @@
               <td class="td-width">
                 <v-select 
                   v-model="user.organization_name"
-                  v-validate="'required'"
                   name="organization_name"
                   :options="works" 
                   label="organization_name"
@@ -215,13 +215,14 @@
             </tbody>
           </table> -->
           <!-- submit -->
-          <table width="100%" cellpadding="5">
+          <table width="100%" cellpadding="5" style="margin-top: 10px">
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
-                  <button class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
-                  <button class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
-                  <button class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
+                  <button v-if="this.user.status_id === 1 || this.user.status_id === 2" class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
+                  <button v-if="this.user.status_id === 1 || this.user.status_id === 2" class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
+                  <button v-if="this.user.status_id === 3" class="btn btn-warning"  type="submit" @click="active" style="margin: 0 15px 0 0">Активувати</button>
+                  <button v-if="this.user.status_id === 1 || this.user.status_id === 2" class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
                 </td>
               </tr>
             </tbody>
@@ -235,17 +236,21 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div></div>
-      <div style="padding: 0 42%" v-if="message && successful">
-        <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
+      <div style="padding: 0 38%" v-if="message && successful">
+        <!-- <button class="btn btn-primary btn-block" @click="message='';successful=false">Продовжити редагувати</button> -->
+        <button class="btn btn-primary btn-block" @click="$router.push(`/user/${user.id}`)">Повернутися до користувача</button>
       </div>
     </div>
+    <div style="padding: 0 30%">
     <div v-if="!access"
     class="alert"
     style="text-align: center;"
     :class="'alert-danger'"
     >
-      У вас немає доступа!
+      Сторінка за даним запитом не доступна
+
     </div>
+  </div>
   </div>
 </template>
 
@@ -285,6 +290,9 @@ export default {
         throw '';
       }
       this.user = data.data.user;
+      // this.user.statusId = 0;
+      this.$set(this.user, 'organization_name', '')
+      this.$set(this.user, 'statusId', '0')
       this.user.rights = data.data.authorities.sort();
       await this.uploadWorkSelect();
       await this.currentWorkSpace();
@@ -298,7 +306,7 @@ export default {
         if(el === 'user') this.isUsr = 'user';
       });
     } catch (err) {
-      alert('Користувача не знайдено.'); 
+      alert('Користувача не знайдено.');
       setTimeout(this.$router.push('/find-user'), 1500);
     }
   },
@@ -315,13 +323,34 @@ export default {
     },
     unActive() {
       this.message = '';
-      this.user.status_id = 3;
-      alert('unActive');
-      alert(JSON.stringify(this.user))
+      this.user.statusId = 3;
+      // alert('unActive');
+      // alert(JSON.stringify(this.user))
       this.$store.dispatch('user/update', this.user).then(
         data => {
           this.message = data.message;
           this.successful = true;
+          setTimeout(() => {window.location.reload();}, 5000)
+        },
+        error => {
+          this.message =
+            (error.response && error.response.data && error.response.data.message || error.response.data.reject) ||
+            error.message ||
+            error.toString();
+          this.successful = false;
+        }
+      );
+    },
+    active() {
+      this.message = '';
+      this.user.statusId = 1;
+      // alert('active');
+      // alert(JSON.stringify(this.user))
+      this.$store.dispatch('user/update', this.user).then(
+        data => {
+          this.message = data.message;
+          this.successful = true;
+          setTimeout(() => {window.location.reload();}, 5000)
         },
         error => {
           this.message =
@@ -335,14 +364,15 @@ export default {
     handleRegister() {
       this.message = '';
       this.submitted = true;
+      this.user.organization_name = this.user.organization_name.organization_name || this.user.organization_name;
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          alert('handleRegister');
-          // alert(JSON.stringify(this.user));
+          // alert('handleRegister');
           this.$store.dispatch('user/update', this.user).then(
             data => {
               this.message = data.message;
               this.successful = true;
+              setTimeout(() => {window.location.reload();}, 5000)
             },
             error => {
               this.message =
@@ -362,10 +392,10 @@ export default {
         this.works = (await this.$store.dispatch('work/getAll')).data;
     },
     async currentWorkSpace() {
-      alert('currentWorkSpace')
+      // alert('currentWorkSpace')
       this.user.organization_name = (await this.$store.dispatch('work/getById', this.user.workplace_id)).data.organization_name;
       // alert(JSON.stringify(this.user.organization_name))
-    },
+    },  
     isBookNum() {
       if (this.user.passportSeries) {
         return 6;

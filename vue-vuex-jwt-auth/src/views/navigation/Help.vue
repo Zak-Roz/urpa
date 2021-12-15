@@ -32,7 +32,7 @@
         <label for="body" class="mt-3 mb-2">Детально опишіть, у чому полягає Ваша проблема (не менше 10 символів)</label>
           <textarea
             v-model="email_body"
-            v-validate="'required|10'"
+            v-validate="'required|min:10'"
             type="text"
             class="form-control"
             name="body" />
@@ -99,6 +99,8 @@ export default {
     },
   },
   mounted() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.email_from = user.login;
     let smtpScript = document.createElement('script');
     smtpScript.setAttribute('src', 'https://smtpjs.com/v3/smtp.js');
     document.head.appendChild(smtpScript);

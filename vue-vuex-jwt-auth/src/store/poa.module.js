@@ -34,6 +34,17 @@ export const poa = {
       );
     },
     
+    getPDF(_, data) {
+      return Poa.getPDF(data).then(
+        response => {
+          return Promise.resolve(response);
+        },
+        error => {
+          return Promise.reject(error);
+        }
+      );
+    },
+    
     update(_, data) {
       return Poa.update(data).then(
         response => {

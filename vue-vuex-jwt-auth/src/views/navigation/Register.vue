@@ -235,7 +235,8 @@
       style="text-align: center;"
       :class="'alert-danger'"
       >
-        У вас немає доступа!
+        Сторінка за даним запитом не доступна
+
       </div>
       <div
         v-if="message"

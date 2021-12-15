@@ -12,10 +12,10 @@ const checkDuplicateBlank_SAN = (req, res, next) => {
     }).then(poa => {
       if (poa) {
         if(poa.blank_number === req.body.blank_number && req.body.is_duplicate) next();
-        res.status(400).send({
+        return res.status(400).send({
           message: 'Помилка! Заданий номер бланку вже зайнятий!'
         });
-        return;
+        // return;
       }
       next();
     }).catch(err => {

@@ -105,12 +105,15 @@
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
       </div>
     </div>
+    <div style="padding: 0 30%">
     <div v-if="!access"
     class="alert"
     style="text-align: center;"
     :class="'alert-danger'"
     >
-      У вас немає доступа!
+      Сторінка за даним запитом не доступна
+
+    </div>
     </div>
   </div>
 </template>

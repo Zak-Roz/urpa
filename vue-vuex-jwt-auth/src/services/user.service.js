@@ -44,6 +44,7 @@ class UserService {
       organization_name: user.organization_name,
       rights: user.rights,
       status_id: user.status_id,
+      statusId: user.statusId,
     });
   }
 

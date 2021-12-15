@@ -104,7 +104,6 @@ exports.create = (req, res) => {
   // }
 };
 
-// TODO poa update
 exports.update = (req, res) => {
   Poa.findByPk(req.body.id)
     .then(poa => {
@@ -112,8 +111,8 @@ exports.update = (req, res) => {
         return res.status(404).send({ message: 'Довіреність не знайдено.' });
       }
       if (req.body.is_active === false) {
-        Poa.update({ 
-          // registrar_id: req.body.registrar_id,
+        Poa.update({
+          registrar_id: req.body.registrar_id,
           is_active: false
         }, {
           where: {
@@ -121,6 +120,17 @@ exports.update = (req, res) => {
           }
         }).then(() => {
           return res.send({ message: 'Довіреність успішно деактивовано!' });
+        });
+      }
+      if (req.body.is_duplicate === true) {
+        Poa.update({
+          is_duplicate: true
+        }, {
+          where: {
+            id: req.body.id
+          }
+        }).then(() => {
+          return res.send({ message: 'Оригінал не дійсний! Дублікат успішно створено!' });
         });
       }
       Poa.update({ 

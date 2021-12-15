@@ -14,7 +14,7 @@
         <li v-if="showModeratorBoard" class="nav-item">
           <router-link to="/mod" class="nav-link">Сторінка Реєстратора</router-link>
         </li>
-        <li class="nav-item">
+        <li v-if="showUserBoard" class="nav-item">
           <router-link v-if="currentUser" to="/user" class="nav-link">Сторінка Користувача</router-link>
         </li>
         <li class="nav-item">
@@ -72,6 +72,13 @@ export default {
     showModeratorBoard() {
       if (this.currentUser && this.currentUser.rights) {
         return this.currentUser.rights.includes('RIGHT_MODERATOR');
+      }
+
+      return false;
+    },
+    showUserBoard() {
+      if (this.currentUser && this.currentUser.rights) {
+        return this.currentUser.rights.includes('RIGHT_USER');
       }
 
       return false;

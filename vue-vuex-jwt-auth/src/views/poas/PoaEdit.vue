@@ -1,7 +1,10 @@
 <template>
   <div class="col-md-12">
     <div class="">
-      <form v-if="!successful && access" style="margin: 50px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="">
+      <form v-if="!successful && access && editAccess" style="margin: 20px 0 0 0; padding: 0 15%" class="needs-validation" novalidate name="form" @submit.prevent="">
+        <h1 style="text-align: center; margin: 0px 0 0px 0"><b>Довіреність №{{poa.id}}</b></h1>
+        <h5 style="text-align: center; margin: 0px 0 20px 0">{{isActive}}</h5>
+        <p v-if="this.poa.is_duplicate" style="text-align: center; margin: 0px 0 0 0"><b>Дублікат</b></p>
         <div >
           <!-- code&name -->
           <table width="100%" cellpadding="5">
@@ -174,37 +177,39 @@
             </tbody>
           </table>
           <!-- submit -->
-          <table v-if="this.poa.is_active" width="100%" cellpadding="5">
+          <table width="100%" cellpadding="5">
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
-                  <button class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
-                  <button class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
-                  <button class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
+                  <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
+                  <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
+                  <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
+                  <button v-if="!this.poa.is_active || this.poa.is_duplicate" class="btn btn-success"  type="submit" @click="$router.push(`/poa/${poa.id}`)">Повернутися до довіреності</button>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </form>
-      <div style="padding: 10% 35%; text-align: center;" >
-      <div
-        v-if="message"
-        
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div></div>
-      <div style="padding: 0 42%" v-if="message && successful">
-        <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
+      <div style="padding: 1% 35%; text-align: center;" >
+        <div v-if="message" class="alert" :class="successful ? 'alert-success' : 'alert-danger'">
+          {{message}}
+        </div>
+      </div>
+      <div style="padding: 0 38%" v-if="message && successful">
+        <!-- <button class="btn btn-primary btn-block" @click="message='';successful=false">Продовжити редагувати</button> -->
+        <button class="btn btn-primary btn-block" @click="$router.push(`/poa/${poa.id}`)">Повернутися до довіреності</button>
       </div>
     </div>
-    <div v-if="!access"
+    <div style="padding: 0 30%">
+    <div v-if="!access || !editAccess"
     class="alert"
     style="text-align: center;"
     :class="'alert-danger'"
     >
-      У вас немає доступа!
+      Сторінка за даним запитом не доступна
     </div>
+  </div>
   </div>
 </template>
 
@@ -213,7 +218,11 @@ export default {
   name: 'NewPoa',
   data() {
     return {
+      registrarOrganization: null,
+      organizationCurrentUser: null,
       access: false,
+      editAccess: false,
+      isActive: '',
       poa: null,
       isPrincipal: ['Найменування довірителя', 'ЄДРПОУ довірителя'],
       isConfident: ['ПІБ довіреної особи', 'РНОКПП довіреної особи'],
@@ -226,30 +235,26 @@ export default {
       dateNow: '',
     };
   },
-  created() {
-    this.$store.dispatch('poa/getById', this.$route.params.id)
-      .then((data) => this.poa = data.data)
-      .then(() => {
-        if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
-        if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
-      })
-      .catch(() => {alert('Довіреності не знайдено.'); setTimeout(this.$router.push('/find-poa'), 1500);})
-    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
+  async created() {
+    try {
+    const data = await this.$store.dispatch('poa/getById', this.$route.params.id)
+    this.poa = data.data; 
+    if(this.poa === null) throw '';
+    this.isActive = this.poa.is_active ? 'Активна' : 'Не активна';
+    const uid1 = await this.$store.dispatch('user/getById', this.poa.registrar_id)
+    this.registrarOrganization = uid1.data.user.workplace_id;
+    const uid2 = await this.$store.dispatch('user/getById', this.$store.state.auth.user.id)
+    this.organizationCurrentUser = uid2.data.user.workplace_id;
+    this.editAccess = this.registrarOrganization === this.organizationCurrentUser;
+    if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
+    if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
+    } catch(err) {
+      alert('Довіреності не знайдено.'); 
+      setTimeout(() => this.$router.push('/find-poa'), 2000);
+    }
   },
-  // async mounted() {
-  //   this.$store.dispatch('poa/getById', this.$route.params.id)
-  //     .then((data) => this.poa = data.data)
-  //     .then(() => {
-  //       if(this.poa.principal_code.split('').length === 10) this.isPrincipal = ['ПІБ довірителя', 'РНОКПП довірителя'];
-  //       if(this.poa.confident_code.split('').length === 8) this.isConfident = ['Найменування довіреної особи', 'ЄДРПОУ довіреної особи'];
-  //     })
-  //     .catch((err) => alert(err.toString()))
-  //   this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-  //   const local = JSON.parse(localStorage.getItem('user'));
-  //   this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
-  // },
   methods: {
     unActive() {
       this.message = '';
@@ -259,6 +264,7 @@ export default {
         data => {
           this.message = data.message;
           this.successful = true;
+          setTimeout(() => {window.location.reload();}, 5000)
         },
         error => {
           this.message =
@@ -278,6 +284,7 @@ export default {
             data => {
               this.message = data.message;
               this.successful = true;
+              setTimeout(() => {window.location.reload();}, 5000)
             },
             error => {
               this.message =

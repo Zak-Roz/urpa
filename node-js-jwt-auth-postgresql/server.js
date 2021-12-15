@@ -24,8 +24,10 @@ db.sequelize.sync();
 
 
 //
-//force: true will drop the table if it already exists
-//const Right = db.right;
+// force: true will drop the table if it already exists
+
+
+// const Right = db.right;
 // function initialRight() {
 //   Right.create({ id: 1, name: 'user' });
 //   Right.create({ id: 2, name: 'moderator' });
@@ -50,6 +52,8 @@ db.sequelize.sync();
 //   initialWorkplace();
 // });
 
+
+//
 
 
 // simple route

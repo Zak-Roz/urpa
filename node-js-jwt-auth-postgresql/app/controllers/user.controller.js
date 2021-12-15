@@ -134,7 +134,7 @@ exports.update = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: 'Користувача не знайдено.' });
       }
-      if (req.body.status_id === 3) {
+      if (req.body.statusId === 3) {
         User.update({ status_id: 3 }, {
           where: {
             id: req.body.id
@@ -143,17 +143,27 @@ exports.update = (req, res) => {
           return res.send({ message: 'Користувача успішно деактивовано!' });
         });
       }
+      if (req.body.statusId === 1) {
+        User.update({ status_id: 1 }, {
+          where: {
+            id: req.body.id
+          }
+        }).then(() => {
+          return res.send({ message: 'Користувача успішно активовано!' });
+        });
+      }
+      // console.log('🚀 ~ file: user.controller.js ~ line 147 ~ req.body', req.body);
       User.update({ 
-        fullname: user.fullname,
-        login: user.login,
-        // password: user.password,
-        dob: user.dob,
-        passport_serias: user.passport_serias,
-        passport_number: user.passport_number,
-        passport_issue_date: user.passport_issue_date,
-        passport_authority: user.passport_authority,
-        rntrc: user.rntrc,
-        workplace_id: user.workplace_id,
+        fullname: req.body.fullname,
+        login: req.body.login,
+        // password: req.body.password,
+        dob: req.body.dob,
+        passport_serias: req.body.passport_serias,
+        passport_number: req.body.passport_number,
+        passport_issue_date: req.body.passport_issue_date,
+        passport_authority: req.body.passport_authority,
+        rntrc: req.body.rntrc,
+        workplace_id: req.body.workplace_id,
       }, {
         where: {
           id: req.body.id

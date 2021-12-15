@@ -1,7 +1,8 @@
 <template>
   <div class="col-md-12">
+    <h2 style="text-align: center; margin-top: 20px">Пошук користувача</h2>
     <div class="">
-      <form style="margin: 50px 0 0 0; padding: 0 10%;" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
+      <form style="margin: 50px 0 0 0; padding: 0 10%" class="needs-validation" novalidate name="form" @submit.prevent="handleRegister">
         <div v-if="!successful && access">
           <table width="100%" cellpadding="5">
             <tbody>
@@ -25,7 +26,7 @@
                   class="form-control"
                   name="fullname"
                 />
-                <div style="margin-top: 8px;" v-if="submitted && errors.has('fullname')" class="alert-danger">
+                <div v-if="submitted && errors.has('fullname')" class="alert-danger">
                   {{errors.first('fullname')}}
                 </div>
               </td>
@@ -37,19 +38,19 @@
                   class="form-control"
                   name="email"
                 />
-                <div style="margin-top: 8px;" v-if="submitted && errors.has('login')" class="alert-danger">
-                  {{errors.first('login')}}
+                <div v-if="submitted && errors.has('email')" class="alert-danger">
+                  {{errors.first('email')}}
                 </div>
               </td>
               <td>
                 <input
                   v-model="user.rntrc"
                   v-validate="'length:10'"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="rntrc"
                 />
-                <div style="margin-top: 8px;" v-if="submitted && errors.has('rntrc')" class="alert-danger">
+                <div v-if="submitted && errors.has('rntrc')" class="alert-danger">
                   {{errors.first('rntrc')}}
                 </div>
               </td>
@@ -76,7 +77,7 @@
                   class="form-control"
                   name="passport series"
                 />
-                <div style="margin-top: 8px;" v-if="submitted && errors.has('passport series')" class="alert-danger">
+                <div v-if="submitted && errors.has('passport series')" class="alert-danger">
                   {{errors.first('passport series')}}
                 </div>
               </td>
@@ -84,11 +85,11 @@
                 <input
                   v-model="user.passportNumber"
                   v-validate="{ required: false, length: isBookNum(), regex: isBookRegex() }"
-                  type="text"
+                  type="number"
                   class="form-control"
                   name="passport number"
                 />
-                <div style="margin-top: 8px;" v-if="submitted && errors.has('passport number')" class="alert-danger">
+                <div v-if="submitted && errors.has('passport number')" class="alert-danger">
                   {{errors.first('passport number')}}
                 </div>
               </td>
@@ -96,7 +97,7 @@
             </tbody>
           </table>
           <!-- submit -->
-          <table width="100%" cellpadding="5">
+          <table width="100%" cellpadding="5" style="margin-top: 10px">
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
@@ -119,12 +120,14 @@
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
       </div> -->
     </div>
+    <div style="padding: 0 30%">
     <div v-if="!access"
     class="alert"
     style="text-align: center;"
     :class="'alert-danger'"
     >
-      У вас немає доступа!
+      Сторінка за даним запитом не доступна
+    </div>
     </div>
   </div>
 </template>
@@ -153,7 +156,7 @@ export default {
     this.access = local.rights.some((el) => el === 'RIGHT_ADMIN');
   },
   methods: {
-    async handleRegister() {
+    handleRegister() {
       // alert(JSON.stringify(this.user));
       this.message = '';
       this.submitted = true;

@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
 
     if (!token) {
       return res.status(403).send({
-        message: 'Не надано токену!'
+        message: 'Не надано токен!'
       });
     }
 

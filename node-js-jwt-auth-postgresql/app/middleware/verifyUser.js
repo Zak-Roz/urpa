@@ -6,12 +6,13 @@ const Workplace = db.workplace;
 const checkDuplicateUser = (req, res, next) => {
   try {
   // Login
-    // console.log(req.body);
-    if (req.body.status_id === 3) next();
+    console.log(req.body);
+    if (req.body.statusId === 3) next();
+    if (req.body.statusId === 1) next();
     // console.log('🚀 ~ file: verifyUser.js ~ line 11 ~ checkDuplicateUser ~ req.body', req.body);
     User.findByPk(req.body.id)
       .then(user => {
-        console.log('🚀 ~ file: verifyUser.js ~ line 13 ~ checkDuplicateUser ~ user', user);
+        // console.log('🚀 ~ file: verifyUser.js ~ line 13 ~ checkDuplicateUser ~ user', user);
         // return;
         // all
         if (user.fullname === req.body.fullname 
@@ -26,7 +27,7 @@ const checkDuplicateUser = (req, res, next) => {
           try {
             if (req.body.rights?.length) {
               req.body.rights = req.body.rights.filter((el) => el);
-              console.log('🚀 ~ file: verifyUser.js ~ line 28 ~ checkDuplicateUser ~ req.body.rights', req.body.rights);
+              // console.log('🚀 ~ file: verifyUser.js ~ line 28 ~ checkDuplicateUser ~ req.body.rights', req.body.rights);
               for (let i = 0; i < req.body.rights.length; i++) {
                 if (!RIGHTS.includes(req.body.rights[i])) {
                   return res.status(400).send({
@@ -39,28 +40,20 @@ const checkDuplicateUser = (req, res, next) => {
                   organization_name: req.body.organization_name
                 }})
                 .then(work => {
+                  req.body.workplace_id = work.id;
+                  // console.log('🚀 ~ file: verifyUser.js ~ line 43 ~ checkDuplicateUser ~ req.body', req.body);
                   if (work && work.id === user.workplace_id) {
-                    req.body.workplace_id = work.id;
                     
                     user.getRights().then(rights => {
                       const rightsBuff =[];
-                      // console.log('🚀 ~ file: verifyUser.js ~ line 44 ~ user.getRights ~ rights', rights);
-                      // return res.status(400).send({message: 'Stop'});
-                      // console.log('🚀 ~ file: verifyUser.js ~ line 49 ~ user.getRights ~ rights', rights);
-                      // return res.status(400).send({message: 'Stop'});
                       let flag = false;
                       rights.forEach((i) => rightsBuff.push(i.name));
                       req.body.rights.sort();
                       rightsBuff.sort();
                       if (rightsBuff.length === req.body.rights.length) {
                         for (let i = 0; i < rights.length; i++) {
-                          // rightsBuff.push(rights[i].name);
                           if (rightsBuff[i] !== req.body.rights[i]) flag = true;
                         }
-                        // console.log('🚀 ~ file: verifyUser.js ~ line 54 ~ user.getRights ~ flag', flag);
-                        // console.log('🚀 ~ file: verifyUser.js ~ line 54 ~ user.getRights ~ req.body.rights', req.body.rights);
-                        // console.log('🚀 ~ file: verifyUser.js ~ line 54 ~ user.getRights ~ rightsBuff', rightsBuff);
-                        // return res.status(400).send({message: 'Stop'});
                         if (!flag) {
                           return res.status(400).send({message: 'Зміни не внесені. Змініть щось, щоб оновити дані!'});
                         }

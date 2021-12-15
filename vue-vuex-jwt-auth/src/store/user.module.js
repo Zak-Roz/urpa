@@ -5,7 +5,6 @@ export const user = {
   namespaced: true,
   actions: {
     findUserInDb(_, data) {
-      // return data;
       return UserService.findUserInDb(data).then(
         getData => {
           return Promise.resolve(getData);
@@ -19,7 +18,6 @@ export const user = {
       return UserService.allUsers();
     },
     getById(_, id) {
-      // return data;
       return UserService.getById(id).then(
         getData => {
           return Promise.resolve(getData);
@@ -28,7 +26,6 @@ export const user = {
           return Promise.reject(error);
         }
       );
-      // return UserService.getById(id);
     },
 
     updatePass(_, user) {

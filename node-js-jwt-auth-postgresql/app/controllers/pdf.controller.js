@@ -4,6 +4,7 @@ const fse = require('fs-extra');
 const { v1: uuid } = require('uuid');
 
 exports.pdf = async (req, res) => {
+  console.log('🚀 ~ file: pdf.controller.js ~ line 8 ~ exports.pdf= ~ req.body', req.body);
   fse.emptyDirSync('C:/Users/nazar/Desktop/urpa/node-js-jwt-auth-postgresql/data/pdf');
   let options = { format: 'A4' };
   // Example of options with args //
@@ -11,7 +12,27 @@ exports.pdf = async (req, res) => {
   const currentMonth = (new Date().getMonth() + 1) < 10 ? `0${(new Date().getMonth() + 1)}` : `${(new Date().getMonth() + 1)}`;
   const currentDay = new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`;
   const currentYear = new Date().getFullYear();
-  const dateNow = `${currentYear}-${currentMonth}-${currentDay}`;
+  const dateNow = `${currentDay}-${currentMonth}-${currentYear}`;
+  req.body.registration_date = req.body.registration_date.split('-').reverse().join('-');
+  req.body.expiry_date = req.body.expiry_date.split('-').reverse().join('-');
+  req.body.certification_date = req.body.certification_date.split('-').reverse().join('-');
+  let confidentName, confidentCode, principalName, principalCode;
+  if (req.body.confident_code.length === 8) {
+    confidentName = 'Найменування юридичної осіби';
+    confidentCode = 'Код ЄДРПОУ';
+  }
+  else {
+    confidentName = 'ПІБ фізичної осіби';
+    confidentCode = 'РНОКПП (ІПН)';
+  } 
+  if (req.body.principal_code.length === 8) {
+    principalName = 'Найменування юридичної осіби';
+    principalCode = 'Код ЄДРПОУ';
+  }
+  else {
+    principalName = 'ПІБ фізичної осіби';
+    principalCode = 'РНОКПП (ІПН)';
+  } 
   let file = { content: `
   <html>
   <head>
@@ -22,13 +43,12 @@ exports.pdf = async (req, res) => {
           font-family: 'Times New Roman', Times, serif;
           padding-top: 10pt;
         }
-        h3 {
-            margin: 20pt;
+        h3, h4, h5, h2 {
+            margin: 10pt;
             text-align: center;
         }
-        h5 {
-            margin: 20pt;
-            text-align: center;
+        p {
+          text-align: center;
         }
         table {
             border: none;
@@ -48,12 +68,10 @@ exports.pdf = async (req, res) => {
   </head>
   <body>
       <h3>ВИТЯГ <br> з Єдиного Реєстру Довіреностей</h3>
-      <h5>Довіреність № ${req.body.id}</h5>
-      <table>
-          <tr>
-              <td>Дата формування витягу</td>
-              <td>${dateNow}</td>
-          </tr>
+      <h4>Довіреність № ${req.body.id}</h4>
+      <p>${req.body.is_active ? 'Активна' : 'Не активна'}</p>
+      <p>${req.body.is_duplicate ? 'Дублікат' : ''}</p>
+      <table width="100%" cellpadding="5">
           <tr>
               <td>Серія спеціального бланку нотаріальних документів, на якому викладено текст довіреності</td>
               <td>${req.body.blank_series}</td>
@@ -78,22 +96,22 @@ exports.pdf = async (req, res) => {
       <h5>Відомості про Довірителя</h5>
       <table>
           <tr>
-              <td>ПІБ (для фізичних осіб) або Найменування (для юридичних осіб)</td>
+              <td>${principalName}</td>
               <td>${req.body.principal_name}</td>
           </tr>
           <tr>
-              <td>РНОКПП (для фізичних осіб) або Код ЄДРПОУ (для юридичних осіб)</td>
+              <td>${principalCode}</td>
               <td>${req.body.principal_code}</td>
           </tr>
       </table>
       <h5>Відомості про Довірену особу</h5>
       <table>
           <tr>
-              <td>ПІБ (для фізичних осіб) або Найменування (для юридичних осіб)</td>
+              <td>${confidentName}</td>
               <td>${req.body.confident_name}</td>
           </tr>
           <tr>
-              <td>РНОКПП (для фізичних осіб) або Код ЄДРПОУ (для юридичних осіб)</td>
+              <td>${confidentCode}</td>
               <td>${req.body.confident_code}</td>
           </tr>
       </table>
@@ -103,6 +121,8 @@ exports.pdf = async (req, res) => {
               <td>${req.body.property}</td>
           </tr>
       </table>
+      <p style="margin: 40px 0px 0 550px">Дата формування витягу</p>
+      <p style="margin: 5px 0px 0 550px">${dateNow}</p>
   </body>
   </html>
   
@@ -111,10 +131,18 @@ exports.pdf = async (req, res) => {
   try {
     const pdfBuffer = await html_to_pdf.generatePdf(file, options); //.then(pdfBuffer => {
     console.log('PDF Buffer:-', pdfBuffer);
-    const fileName = `C:/Users/nazar/Desktop/urpa/node-js-jwt-auth-postgresql/data/pdf/${uuid()}.pdf`;
-    fs.writeFileSync(fileName, pdfBuffer);
-    console.log('🚀 ~ file: pdf.controller.js ~ line 230 ~ pdfBuffer ~ ', fileName);
-    res.send(fileName);
+    const fileName = `${uuid()}.pdf`;
+    const fileURL = `C:/Users/nazar/Desktop/urpa/node-js-jwt-auth-postgresql/data/pdf/${fileName}`;
+    fs.writeFileSync(fileURL, pdfBuffer);
+    console.log('🚀 ~ file: pdf.controller.js ~ line 230 ~ pdfBuffer ~ ', fileURL);
+    const stream = fs.createReadStream(fileURL);
+    res.set({
+      'Content-Disposition': `attachment; filename='${fileName}'`,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/pdf',
+    });
+    stream.pipe(res);
+    // return res.send('Файл надіслано');
   }catch (err) {
     res.status(400).json({ message: err.toString() });
   }
