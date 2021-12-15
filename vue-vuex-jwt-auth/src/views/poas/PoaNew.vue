@@ -196,14 +196,14 @@
             <tbody>
               <tr>
                 <td>
-                  <textarea
+                  <textarea style="height: pe"
                   v-model="poa.property"
                   v-validate="'required'"
                   type="text"
                   class="form-control"
                   name="property" 
-                  placeholder="property" 
-                  rows="2"></textarea>
+                  placeholder="Автомобіль 'Suzuki Lancer 3' тип автомобіля: легоквий, номер державної реєстрації: АА1234ВВ, серійний номер: 1HGBH41JXMN109186" 
+                  rows="3"></textarea>
                   <div v-if="submitted && errors.has('property')" class="alert-danger">
                     {{errors.first('property')}}
                   </div>
