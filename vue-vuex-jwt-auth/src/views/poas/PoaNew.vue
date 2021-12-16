@@ -25,7 +25,8 @@
                   v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
                   type="text"
                   class="form-control" 
-                  name="principal_name" 
+                  name="principal_name"
+                  placeholder="Іванов Іван Іванович"
                 />
                 <div v-if="submitted && errors.has('principal_name')" class="alert-danger">
                   {{errors.first('principal_name')}}
@@ -37,7 +38,8 @@
                   v-validate="{required: true, length: isLegalOrIndividualP()}"
                   type="number"
                   class="form-control" 
-                  name="principal_code" 
+                  name="principal_code"
+                  placeholder="1234567890"
                 />
                 <div v-if="submitted && errors.has('principal_code')" class="alert-danger">
                   {{errors.first('principal_code')}}
@@ -63,7 +65,8 @@
                   v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/, is_not: poa.principal_name}"
                   type="text"
                   class="form-control" 
-                  name="confident_name" 
+                  name="confident_name"
+                  placeholder="ТОВ 'ПРИВАТБАНК'"
                 />
                 <div v-if="submitted && errors.has('confident_name')" class="alert-danger">
                   {{errors.first('confident_name')}}
@@ -75,7 +78,8 @@
                   v-validate="{required: true, length: isLegalOrIndividualC(), is_not: poa.principal_code}"
                   type="text"
                   class="form-control" 
-                  name="confident_code" 
+                  name="confident_code"
+                  placeholder="123456"
                 />
                 <div v-if="submitted && errors.has('confident_code')" class="alert-danger">
                   {{errors.first('confident_code')}}
@@ -159,6 +163,7 @@
                   type="text"
                   class="form-control"
                   name="blank_series"
+                  placeholder="АРО"
                 />
                 <div v-if="submitted && errors.has('blank_series')" class="alert-danger">
                   {{errors.first('blank_series')}}
@@ -171,6 +176,7 @@
                   type="number"
                   class="form-control"
                   name="blank_number"
+                  placeholder="123456"
                 />
                 <div v-if="submitted && errors.has('blank_number')" class="alert-danger">
                   {{errors.first('blank_number')}}
@@ -196,14 +202,14 @@
             <tbody>
               <tr>
                 <td>
-                  <textarea style="height: pe"
+                  <textarea
                   v-model="poa.property"
                   v-validate="'required'"
                   type="text"
                   class="form-control"
                   name="property" 
                   placeholder="Автомобіль 'Suzuki Lancer 3' тип автомобіля: легоквий, номер державної реєстрації: АА1234ВВ, серійний номер: 1HGBH41JXMN109186" 
-                  rows="3"></textarea>
+                  rows="2"></textarea>
                   <div v-if="submitted && errors.has('property')" class="alert-danger">
                     {{errors.first('property')}}
                   </div>

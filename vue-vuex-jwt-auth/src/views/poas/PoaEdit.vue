@@ -25,7 +25,8 @@
                   v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
                   type="text"
                   class="form-control" 
-                  name="principal_name" 
+                  name="principal_name"
+                  placeholder="Іванов Іван Іванович"
                 />
                 <div v-if="submitted && errors.has('principal_name')" class="alert-danger">
                   {{errors.first('principal_name')}}
@@ -37,7 +38,8 @@
                   v-validate="{required: true, length: isLegalOrIndividualP()}"
                   type="number"
                   class="form-control" 
-                  name="principal_code" 
+                  name="principal_code"
+                  placeholder="1234567890"
                 />
                 <div v-if="submitted && errors.has('principal_code')" class="alert-danger">
                   {{errors.first('principal_code')}}
@@ -60,7 +62,8 @@
                   v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/, is_not: poa.principal_name}"
                   type="text"
                   class="form-control" 
-                  name="confident_name" 
+                  name="confident_name"
+                  placeholder="ТОВ 'ПРИВАТБАНК'"
                 />
                 <div v-if="submitted && errors.has('confident_name')" class="alert-danger">
                   {{errors.first('confident_name')}}
@@ -72,7 +75,8 @@
                   v-validate="{required: true, length: isLegalOrIndividualC(), is_not: poa.principal_code}"
                   type="text"
                   class="form-control" 
-                  name="confident_code" 
+                  name="confident_code"
+                  placeholder="12345678"
                 />
                 <div v-if="submitted && errors.has('confident_code')" class="alert-danger">
                   {{errors.first('confident_code')}}
