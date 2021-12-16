@@ -40,7 +40,7 @@
     </table>
     <div style="display: flex; margin: 10px; justify-content: center">
       <button v-if="this.poa.is_active && editAccess && !is_duplicate" style="margin: 10px;" @click="dublicate" type="button" class="btn btn-outline-dark">Дублікат</button>
-      <button v-if="this.poa.is_active && editAccess && !is_duplicate" style="margin: 10px;" @click="$router.push(`/edit-poa/${poa.id}`)" type="button" class="btn btn-outline-dark">Редагувати</button>
+      <button v-if="this.poa.is_active && editAccess" style="margin: 10px;" @click="$router.push(`/edit-poa/${poa.id}`)" type="button" class="btn btn-outline-dark">Редагувати</button>
       <button style="margin: 10px;" @click="pdf" type="button" class="btn btn-outline-dark">Витяг</button>
     </div>
   </div>

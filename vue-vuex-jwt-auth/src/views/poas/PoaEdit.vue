@@ -185,10 +185,10 @@
             <tbody>
               <tr>
                 <td style="border-left: 20px solid white; border-right: 20px solid white; color: white; text-align: center;">
+                  <button v-if="!this.poa.is_active || this.poa.is_duplicate" class="btn btn-success" style="margin: 0 15px 0 0" type="submit" @click="$router.push(`/poa/${poa.id}`)">Повернутися до довіреності</button>
                   <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-secondary" style="margin: 0 15px 0 0" type="reset">Очистити</button>
-                  <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
+                  <button v-if="this.poa.is_active" class="btn btn-danger"  type="submit" @click="unActive" style="margin: 0 15px 0 0">Деактивувати</button>
                   <button v-if="this.poa.is_active && !this.poa.is_duplicate" class="btn btn-success"  type="submit" @click="handleRegister">Зберегти зміни</button>
-                  <button v-if="!this.poa.is_active || this.poa.is_duplicate" class="btn btn-success"  type="submit" @click="$router.push(`/poa/${poa.id}`)">Повернутися до довіреності</button>
                 </td>
               </tr>
             </tbody>

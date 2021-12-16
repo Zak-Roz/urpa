@@ -237,8 +237,9 @@
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div></div>
-      <div style="padding: 0 42%" v-if="message && successful">
+      <div style="padding: 0 40%" v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
+        <button class="btn btn-primary btn-block" @click="$router.push(`/poa/${id}`)">Перейти на довіреність</button>
       </div>
       <!-- <div style="padding: 0 42%" v-if="message && successful">
         <button class="btn btn-primary btn-block" @click="message='';successful=false">Перейти на довіреність</button>
@@ -270,6 +271,7 @@ export default {
   data() {
     return {
       access: false,
+      id: null,
       poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
       codePrincipal: 'РНОКПП довірителя',
       codeConfident: 'РНОКПП довіреної особи',
@@ -299,15 +301,15 @@ export default {
     //   this.$router.push('/profile');
     // }
 
-    // this.poa.confident_code = 1112223334;
-    // this.poa.confident_name = 'Ааа Ббб Ввв';
-    // this.poa.principal_code = 1112223324;
-    // this.poa.principal_name = 'Ввв Ббб Ааа';
-    // this.poa.expiry_date = '2025-10-21';
-    // this.poa.certification_date = '2015-10-21';
-    // this.poa.blank_number = '111222';
-    // this.poa.blank_series = 'ААА';
-    // this.poa.property = 'Тут має бути текс під інпутом';
+    this.poa.confident_code = 1112223334;
+    this.poa.confident_name = 'Ааа Ббб Ввв';
+    this.poa.principal_code = 1112223324;
+    this.poa.principal_name = 'Ввв Ббб Ааа';
+    this.poa.expiry_date = '2025-10-21';
+    this.poa.certification_date = '2015-10-21';
+    this.poa.blank_number = '111222';
+    this.poa.blank_series = 'ААА';
+    this.poa.property = 'Тут має бути текс під інпутом';
 
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
@@ -327,6 +329,7 @@ export default {
           this.$store.dispatch('poa/new', this.poa).then(
             data => {
               this.message = data.message;
+              this.id = data.id;
               this.successful = true;
             },
             error => {

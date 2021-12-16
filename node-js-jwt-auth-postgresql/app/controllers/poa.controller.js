@@ -93,8 +93,8 @@ exports.create = (req, res) => {
     is_active: true,
     registrar_id: req.body.registrar_id,
     property: req.body.property,
-  }).then(() => {
-    return res.send({ message: 'Довіреність успішно створено!' });
+  }).then((poa) => {
+    return res.send({ message: 'Довіреність успішно створено!', id: poa.id });
   });
   //   .catch(err => {
   //     res.status(500).send({ message: err.message });
