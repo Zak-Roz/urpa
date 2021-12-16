@@ -241,6 +241,7 @@ export default {
   },
   async created() {
     try {
+    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
     const data = await this.$store.dispatch('poa/getById', this.$route.params.id)
     this.poa = data.data; 
     if(this.poa === null) throw '';
