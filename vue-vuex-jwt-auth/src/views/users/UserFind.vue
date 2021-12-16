@@ -152,10 +152,10 @@ export default {
     };
   },
   mounted() {
-    this.user.fullname = 'Ааа Ббб Ввв';
-    this.user.login = 'aqws@cc.oo';
-    this.user.passportNumber = '145236987';
-    this.user.rntrc = '4785124369';
+    // this.user.fullname = 'Ааа Ббб Ввв';
+    // this.user.login = 'aqws@cc.oo';
+    // this.user.passportNumber = '145236987';
+    // this.user.rntrc = '4785124369';
     // this.user.passportSeries = 'ЕС';
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_ADMIN');

@@ -253,14 +253,14 @@ export default {
     // }
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
     this.user.rights = [];
-    this.user.fullname = 'Ааа Ббб Ввв';
-    this.user.dob = '1995-10-21';
-    this.user.login = 'aqws@cc.oo';
-    this.user.passportNumber = '145236987';
-    this.user.passportIssueDate = '2015-10-21';
-    this.user.passportAuthority = '1111';
-    this.user.organization_name = 'a';
-    this.user.rntrc = '4785124369';
+    // this.user.fullname = 'Ааа Ббб Ввв';
+    // this.user.dob = '1995-10-21';
+    // this.user.login = 'aqws@cc.oo';
+    // this.user.passportNumber = '145236987';
+    // this.user.passportIssueDate = '2015-10-21';
+    // this.user.passportAuthority = '1111';
+    // this.user.organization_name = 'a';
+    // this.user.rntrc = '4785124369';
     this.uploadWorkSelect()
     // this.works = (await this.$store.dispatch('work/getAll')).data;
 // eslint-disable-next-line no-debugger

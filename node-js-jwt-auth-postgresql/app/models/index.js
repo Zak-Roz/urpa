@@ -24,20 +24,12 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require('../models/user.model.js')(sequelize, Sequelize);
-db.right = require('../models/right.model.js')(sequelize, Sequelize);
-db.poa = require('../models/poa.model.js')(sequelize, Sequelize);
 db.workplace = require('../models/workplace.model.js')(sequelize, Sequelize);
 db.status = require('../models/status.model.js')(sequelize, Sequelize);
+db.right = require('../models/right.model.js')(sequelize, Sequelize);
+db.user = require('../models/user.model.js')(sequelize, Sequelize);
+db.poa = require('../models/poa.model.js')(sequelize, Sequelize);
 db.journalisms = require('../models/journalism.model.js')(sequelize, Sequelize);
-
-db.user.hasMany(db.poa, { as: 'Users', foreignKey: 'registrar_id' });
-
-db.workplace.hasMany(db.user, { as: 'Workplaces', foreignKey: 'workplace_id' });
-db.status.hasMany(db.user, { as: 'Statuses', foreignKey: 'status_id' });
-
-db.user.hasMany(db.journalisms, { foreignKey: 'user_id' });
-db.poa.hasMany(db.journalisms, { as: 'Poas', foreignKey: 'poa_id' });
 
 db.right.belongsToMany(db.user, {
   through: 'user_rights',
@@ -49,6 +41,14 @@ db.user.belongsToMany(db.right, {
   foreignKey: 'userId',
   otherKey: 'rightId'
 });
+db.workplace.hasMany(db.user, { as: 'Workplaces', foreignKey: 'workplace_id' });
+db.status.hasMany(db.user, { as: 'Statuses', foreignKey: 'status_id' });
+
+db.user.hasMany(db.poa, { as: 'Users', foreignKey: 'registrar_id' });
+
+db.user.hasMany(db.journalisms, { foreignKey: 'user_id' });
+db.poa.hasMany(db.journalisms, { as: 'Poas', foreignKey: 'poa_id' });
+
 
 db.RIGHTS = ['user', 'admin', 'moderator'];
 // db.STATUSES = ['noactivity', 'active', 'rejection'];

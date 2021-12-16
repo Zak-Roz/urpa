@@ -298,15 +298,17 @@ export default {
     // if (this.loggedIn) {
     //   this.$router.push('/profile');
     // }
-    this.poa.confident_code = 1112223334;
-    this.poa.confident_name = 'Ааа Ббб Ввв';
-    this.poa.principal_code = 1112223324;
-    this.poa.principal_name = 'Ввв Ббб Ааа';
-    this.poa.expiry_date = '2025-10-21';
-    this.poa.certification_date = '2015-10-21';
-    this.poa.blank_number = '111222';
-    this.poa.blank_series = 'ААА';
-    this.poa.property = 'Тут має бути текс під інпутом';
+
+    // this.poa.confident_code = 1112223334;
+    // this.poa.confident_name = 'Ааа Ббб Ввв';
+    // this.poa.principal_code = 1112223324;
+    // this.poa.principal_name = 'Ввв Ббб Ааа';
+    // this.poa.expiry_date = '2025-10-21';
+    // this.poa.certification_date = '2015-10-21';
+    // this.poa.blank_number = '111222';
+    // this.poa.blank_series = 'ААА';
+    // this.poa.property = 'Тут має бути текс під інпутом';
+
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR');
     // this.uploadWorkSelect()

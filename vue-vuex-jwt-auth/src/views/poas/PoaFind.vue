@@ -141,10 +141,12 @@ export default {
   },
   mounted() {
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-    this.poa.registration_date = '2021-12-05';
-    this.poa.blank_number = '111222';
-    this.poa.blank_series = 'ААА';
-    this.poa.register_number = '1';
+
+    // this.poa.registration_date = '2021-12-05';
+    // this.poa.blank_number = '111222';
+    // this.poa.blank_series = 'ААА';
+    // this.poa.register_number = '1';
+
     const local = JSON.parse(localStorage.getItem('user'));
     this.access = local.rights.some((el) => el === 'RIGHT_MODERATOR' || el === 'RIGHT_ADMIN' || el === 'RIGHT_USER');
   },

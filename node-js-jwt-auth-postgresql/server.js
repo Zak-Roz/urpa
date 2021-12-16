@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // database
 const db = require('./app/models');
 
+
+
 db.sequelize.sync();
 
 
@@ -41,16 +43,16 @@ db.sequelize.sync();
 // }
 // const Workplace = db.workplace;
 // function initialWorkplace() {
-//   Workplace.create({ email: 'a', organization_name: 'a' });
-//   Workplace.create({ email: 'ab', organization_name: 'ab' });
-//   Workplace.create({ email: 'abc', organization_name: 'abc' });
+//   Workplace.create({ id: 1, email: 'a', organization_name: 'a' });
+//   Workplace.create({ id: 2, email: 'ab', organization_name: 'ab' });
+//   Workplace.create({ id: 3, email: 'abc', organization_name: 'abc' });
 // }
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log('\n\nDrop and Resync Database with { force: true }\n\n');
 //   initialRight();
 //   initialStatus();
 //   initialWorkplace();
-// });
+// }).catch((err) => console.log('🚀 ~ file: server.js ~ line 53 ~ err', err));
 
 
 //
