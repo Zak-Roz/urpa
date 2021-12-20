@@ -154,7 +154,7 @@ export default {
 }
 
 .modal-container {
-  width: 417px;
+  width: 350px;
   margin: 0px auto;
   padding: 0px 20px;
   background-color: #fff;

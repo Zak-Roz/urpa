@@ -80,9 +80,9 @@
               v-if="submitted && errors.has('organization_name')"
               class="alert-danger"
             >{{errors.first('organization_name')}}</div>
-            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Добавити нову установу"/>
+            <input type="button" style="margin:15px 0 0 0" class="btn btn-primary btn-block" id="show-modal" @click="showModal = true" value="Додати нову установу"/>
             <Modal v-if="showModal" @close="showModal = false;uploadWorkSelect()">
-              <h3 slot="header">Добавити нову установу</h3>
+              <h3 slot="header">Нова установа</h3>
             </Modal>
             <!-- <button class="button">
               <router-link to="/modal" class="but-link">
