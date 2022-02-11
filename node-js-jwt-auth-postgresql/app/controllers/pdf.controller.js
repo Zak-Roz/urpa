@@ -4,8 +4,8 @@ const fse = require('fs-extra');
 const { v1: uuid } = require('uuid');
 
 exports.pdf = async (req, res) => {
-  console.log('🚀 ~ file: pdf.controller.js ~ line 8 ~ exports.pdf= ~ req.body', req.body);
-  fse.emptyDirSync('C:/Users/nazar/Desktop/urpa/node-js-jwt-auth-postgresql/data/pdf');
+  // console.log('🚀 ~ file: pdf.controller.js ~ line 8 ~ exports.pdf= ~ req.body', req.body);
+  fse.emptyDirSync('C:/Users/SOFTPRO-310-10/Desktop/urpa/urpa/node-js-jwt-auth-postgresql/data/pdf');
   let options = { format: 'A4' };
   // Example of options with args //
   // let options = { format: 'A4', args: ['--no-sandbox', '--disable-setuid-sandbox'] };
@@ -132,7 +132,7 @@ exports.pdf = async (req, res) => {
     const pdfBuffer = await html_to_pdf.generatePdf(file, options); //.then(pdfBuffer => {
     console.log('PDF Buffer:-', pdfBuffer);
     const fileName = `${uuid()}.pdf`;
-    const fileURL = `C:/Users/nazar/Desktop/urpa/node-js-jwt-auth-postgresql/data/pdf/${fileName}`;
+    const fileURL = `C:/Users/SOFTPRO-310-10/Desktop/urpa/urpa/node-js-jwt-auth-postgresql/data/pdf/${fileName}`;
     fs.writeFileSync(fileURL, pdfBuffer);
     console.log('🚀 ~ file: pdf.controller.js ~ line 230 ~ pdfBuffer ~ ', fileURL);
     const stream = fs.createReadStream(fileURL);

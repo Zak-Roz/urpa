@@ -10,7 +10,7 @@ class AuthService {
         // fullname: user.fullname,
         password: user.password,
         // dob: user.dob,
-        // passport_series: user.passportSeries,
+        // passport_serias: user.passportSeries,
         // passport_number: user.passportNumber,
         // passport_issue_date: user.passportIssueDate,
         // passport_authority: user.passportAuthority,

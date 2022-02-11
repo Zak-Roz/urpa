@@ -21,7 +21,7 @@
                 <label for="organization_name">Назва установи</label>
                 <input
                   v-model="workplace.organization_name"
-                  v-validate="'required|min:3|max:25'"
+                  v-validate="'required|min:3|max:50'"
                   type="text"
                   class="form-control"
                   name="organization_name"

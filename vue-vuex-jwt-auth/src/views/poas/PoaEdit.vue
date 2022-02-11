@@ -22,7 +22,7 @@
               <td>
                 <input 
                   v-model="poa.principal_name"
-                  v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
+                  v-validate="{required: true, regex: isFizP()}"
                   type="text"
                   class="form-control" 
                   name="principal_name"
@@ -59,7 +59,7 @@
               <td class="td-width">
                 <input 
                   v-model="poa.confident_name"
-                  v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/, is_not: poa.principal_name}"
+                  v-validate="{required: true, regex: isFiz(), is_not: poa.principal_name}"
                   type="text"
                   class="form-control" 
                   name="confident_name"
@@ -314,7 +314,19 @@ export default {
         return 8;
       }
       return 10;
-    }
+    },
+    isFiz() {
+      if (this.isConfident[0] === 'ПІБ довіреної особи') {
+        return /[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}/;
+      }
+      return /(ООО|ТОВ|ОАО|ЗАО|ЗАТ|АО|ВАТ)\s'[А-ЯІЇ]{1,50}'/;
+    },
+    isFizP() {
+      if (this.isPrincipal[0] === 'ПІБ довірителя') {
+        return /[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}/;
+      }
+      return /(ООО|ТОВ|ОАО|ЗАО|ЗАТ|АО|ВАТ)\s'[А-ЯІЇ]{1,50}'/;
+    },
   }
 };
 </script>

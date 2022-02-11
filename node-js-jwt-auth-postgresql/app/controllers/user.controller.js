@@ -58,9 +58,10 @@ exports.findUser = async (req, res) => {
         passport_number
       }
     }).then((result) => {
-      if (result.passport_serias === passport_serias) {
+      if (passport_serias && result.passport_serias === passport_serias) {
         user = result;
       }
+      if (!passport_serias) user = result;
     });
     return res.json(user);
   } catch (err) {

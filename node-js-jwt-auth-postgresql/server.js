@@ -43,9 +43,7 @@ db.sequelize.sync();
 // }
 // const Workplace = db.workplace;
 // function initialWorkplace() {
-//   Workplace.create({ id: 1, email: 'a', organization_name: 'a' });
-//   Workplace.create({ id: 2, email: 'ab', organization_name: 'ab' });
-//   Workplace.create({ id: 3, email: 'abc', organization_name: 'abc' });
+//   Workplace.create({ email: 'thedigital.gov.ua@ukr.net', organization_name: 'Міністерство та Комітет цифрової трансформації України' });
 // }
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log('\n\nDrop and Resync Database with { force: true }\n\n');

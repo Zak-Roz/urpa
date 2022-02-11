@@ -47,7 +47,7 @@ exports.signup = (req, res) => {
       login: req.body.login,
       password: bcrypt.hashSync(req.body.password || password, 8),
       dob: req.body.dob,
-      passport_series: req.body.passportSeries,
+      passport_serias: req.body.passportSeries,
       passport_number: req.body.passportNumber,
       passport_issue_date: req.body.passportIssueDate,
       passport_authority: req.body.passportAuthority,
@@ -55,7 +55,7 @@ exports.signup = (req, res) => {
       workplace_id: req.body.workplace_id,
       status_id: 1,
     }).then(user => {
-      if (req.body.rights) {
+      if (req.body.rights.length) {
         Right.findAll({
           where: {
             name: {
@@ -64,15 +64,13 @@ exports.signup = (req, res) => {
           }
         }).then(rights => {
           user.setRights(rights).then(() => {
-            // if (!req.body.password) sendEmail(password, user);
+            sendEmail(password, user);
             return res.send({ message: 'Користувача успішно зареєстровано! Логін і пароль відправлені на ел. пошту.' });
           });
         });
       } else {
-      // user right = 1
-        user.setRights([1]).then(() => {
-          // if (!req.body.password) sendEmail(password, user);
-          return res.send({ message: 'Користувача успішно зареєстровано! Логін і пароль відправлені на ел. пошту.' });
+        res.status(400).send({
+          message: 'Помилка! Виберіть рівень доступу!'
         });
       }
     }).catch(err => {

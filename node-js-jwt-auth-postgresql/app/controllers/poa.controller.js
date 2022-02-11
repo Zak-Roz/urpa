@@ -105,9 +105,11 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
+  let flag = true;
   Poa.findByPk(req.body.id)
     .then(poa => {
       if (!poa) {
+        flag = false;
         return res.status(404).send({ message: 'Довіреність не знайдено.' });
       }
       if (req.body.is_active === false) {
@@ -119,6 +121,7 @@ exports.update = (req, res) => {
             id: req.body.id
           }
         }).then(() => {
+          flag = false;
           return res.send({ message: 'Довіреність успішно деактивовано!' });
         });
       }
@@ -130,24 +133,29 @@ exports.update = (req, res) => {
             id: req.body.id
           }
         }).then(() => {
+          flag = false;
           return res.send({ message: 'Оригінал не дійсний! Дублікат успішно створено!' });
         });
       }
-      Poa.update({ 
-        principal_name: req.body.principal_name,
-        principal_code: req.body.principal_code,
-        confident_name: req.body.confident_name,
-        confident_code: req.body.confident_code,
-        certification_date: req.body.certification_date,
-        expiry_date: req.body.expiry_date,
-        property: req.body.property,
-      }, {
-        where: {
-          id: req.body.id
-        }
-      }).then(() => {
-        return res.send({ message: 'Довіреність успішно оновлено!' });
-      });
+      if(flag) {
+        Poa.update({ 
+          principal_name: req.body.principal_name,
+          principal_code: req.body.principal_code,
+          confident_name: req.body.confident_name,
+          confident_code: req.body.confident_code,
+          certification_date: req.body.certification_date,
+          expiry_date: req.body.expiry_date,
+          property: req.body.property,
+          registrar_id: req.body.registrar_id,
+        }, {
+          where: {
+            id: req.body.id
+          }
+        }).then(() => {
+          flag = false;
+          return res.send({ message: 'Довіреність успішно оновлено!' });
+        });
+      }
     })
     .catch(err => {
       res.status(500).send({ message: err.message });

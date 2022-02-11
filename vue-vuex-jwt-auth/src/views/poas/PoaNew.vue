@@ -22,7 +22,7 @@
               <td>
                 <input 
                   v-model="poa.principal_name"
-                  v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
+                  v-validate="{required: true, regex: isFizP()}"
                   type="text"
                   class="form-control" 
                   name="principal_name"
@@ -62,7 +62,7 @@
               <td class="td-width">
                 <input 
                   v-model="poa.confident_name"
-                  v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/, is_not: poa.principal_name}"
+                  v-validate="{required: true, regex: isFiz(), is_not: poa.principal_name}"
                   type="text"
                   class="form-control" 
                   name="confident_name"
@@ -238,7 +238,7 @@
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div></div>
       <div style="padding: 0 40%" v-if="message && successful">
-        <button class="btn btn-primary btn-block" @click="message='';successful=false">Нова довіреність</button>
+        <button class="btn btn-primary btn-block" @click="reloadPage()/*message='';successful=false*/">Нова довіреність</button>
         <button class="btn btn-primary btn-block" @click="$router.push(`/poa/${id}`)">Перейти на довіреність</button>
       </div>
       <!-- <div style="padding: 0 42%" v-if="message && successful">
@@ -271,6 +271,8 @@ export default {
   data() {
     return {
       access: false,
+      fiz: '',
+      fizP: '',
       id: null,
       poa: new Poa('', '', '', '', '', '', '', '', '', '', '', ''),
       codePrincipal: 'РНОКПП довірителя',
@@ -343,9 +345,9 @@ export default {
         }
       });
     },
-//     reloadPage() {
-//       window.location.reload();
-//     },
+    reloadPage() {
+      window.location.reload();
+    },
 //     async uploadWorkSelect() {
 //         this.works = (await this.$store.dispatch('work/getAll')).data;
 // // eslint-disable-next-line no-debugger
@@ -384,64 +386,38 @@ export default {
     },
     checkPrincipal(event) {
       if (event.target.value === 'UrP') {
+        this.fizP = 'UrP';
         this.codePrincipal = 'Код ЄДРПОУ довірителя';
       }
       if (event.target.value === 'FullP') {
+        this.fizP = '';
         this.codePrincipal = 'РНОКПП довірителя';
       }
     },
     checkConfident(event) {
       if (event.target.value === 'UrC') {
+        this.fiz = 'UrC';
         this.codeConfident = 'Код ЄДРПОУ довіреної особи';
       }
       if (event.target.value === 'FullC') {
+        this.fiz = '';
         this.codeConfident = 'РНОКПП довіреної особи';
       }
+    },
+    isFiz() {
+      if (!this.fiz) {
+        return /[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}/;
+      }
+      // alert(this.fiz)
+      return /(ООО|ТОВ|ОАО|ЗАО|ЗАТ|АО|ВАТ)\s'[А-ЯІЇ]{1,50}'/;
+    },
+    isFizP() {
+      if (!this.fizP) {
+        return /[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}/;
+      }
+      // alert(this.fiz)
+      return /(ООО|ТОВ|ОАО|ЗАО|ЗАТ|АО|ВАТ)\s'[А-ЯІЇ]{1,50}'/;
     },
   }
 };
 </script>
-
-<style scoped>
-/* label {
-  display: block;
-  margin-top: 10px;
-}
-
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-} */
-</style>

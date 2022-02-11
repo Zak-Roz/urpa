@@ -140,7 +140,7 @@ export default {
     };
   },
   mounted() {
-    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
+    this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay-0+1}`;
 
     // this.poa.registration_date = '2021-12-05';
     // this.poa.blank_number = '111222';

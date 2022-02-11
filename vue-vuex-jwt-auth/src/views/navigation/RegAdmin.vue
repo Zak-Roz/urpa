@@ -252,15 +252,15 @@ export default {
     //   this.$router.push('/profile');
     // }
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
-    this.user.rights = [];
-    // this.user.fullname = 'Ааа Ббб Ввв';
-    // this.user.dob = '1995-10-21';
-    // this.user.login = 'aqws@cc.oo';
-    // this.user.passportNumber = '145236987';
-    // this.user.passportIssueDate = '2015-10-21';
-    // this.user.passportAuthority = '1111';
-    // this.user.organization_name = 'a';
-    // this.user.rntrc = '4785124369';
+    this.user.rights = ['admin'];
+    this.user.fullname = 'Козинець Назарій Вікторович';
+    this.user.dob = '2002-05-21';
+    this.user.login = 'nazary0222@gmail.com';
+    this.user.passportNumber = '096547821';
+    this.user.passportIssueDate = '2019-10-21';
+    this.user.passportAuthority = '3069';
+    this.user.password = '1';
+    this.user.rntrc = '5761200143';
     this.uploadWorkSelect()
     // this.works = (await this.$store.dispatch('work/getAll')).data;
 // eslint-disable-next-line no-debugger

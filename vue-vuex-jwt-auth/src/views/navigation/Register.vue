@@ -13,7 +13,7 @@
             <label for="fullname">ПІБ</label>
             <input
               v-model="user.fullname"
-              v-validate="{required: true, regex: /[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}\s[А-ЯІЇ]{1}[а-яії]{1,23}/}"
+              v-validate="{required: true, regex: /[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}\s[А-ЯІЇЄ]{1}[а-яіїє]{1,23}/}"
               type="text"
               class="form-control"
               name="fullname"
@@ -45,7 +45,7 @@
             <label for="day of birthday">Дата народження</label>
             <input
               v-model="user.dob"
-              v-validate="'required'"
+              v-validate="`required|date_format:yyyy-MM-dd|date_between:1950-01-01,${this.dateDOB}`"
               type="date"
               class="form-control"
               name="day of birthday"
@@ -250,7 +250,7 @@
         :class="successful ? 'alert-success' : 'alert-danger'"
       >{{message}}</div>
       <div v-if="message && successful">
-        <button class="btn btn-primary btn-block" @click="message='';successful=false">Новий користувач системи</button>
+        <button class="btn btn-primary btn-block" @click="reloadPage()/*message='';successful=false*/">Новий користувач системи</button>
       </div>
     </div>
   </div>
@@ -279,6 +279,7 @@ export default {
       currentDay: new Date().getDate() < 10 ? `0${(new Date().getDate())}` : `${(new Date().getDate())}`,
       currentYear: new Date().getFullYear(),
       dateNow: '',
+      dateDOB: '',
       // rights: ["admin", "moderator", "user"],
       works: [],
     };
@@ -293,6 +294,7 @@ export default {
     //   this.$router.push('/profile');
     // }
     this.dateNow = `${this.currentYear}-${this.currentMonth}-${this.currentDay}`;
+    this.dateDOB = `${this.currentYear-18}-${this.currentMonth}-${this.currentDay}`;
     this.user.rights = [];
     // this.user.fullname = 'Ааа Ббб Ввв';
     // this.user.dob = '1995-10-21';
@@ -315,7 +317,6 @@ export default {
       this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
-          // alert(JSON.stringify(this.user));
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = data.message;
@@ -360,7 +361,7 @@ export default {
     },
     isBookRegexAuthority() {
       if (this.user.passportSeries) {
-        return /[А-Яа-я]/;
+        return /[А-ЯІЇЄа-яіїє]/;
       }
       return /[0-9]{4}/;
     },
